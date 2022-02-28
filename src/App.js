@@ -1,7 +1,5 @@
 import "./App.css";
-import Body from "./components/Body/Body";
-import TabBar from "./components/TabBar";
-
+import { Body, TabBar } from "./components";
 function App() {
     return (
         <Body>
