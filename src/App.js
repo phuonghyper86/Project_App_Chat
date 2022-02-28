@@ -1,6 +1,13 @@
 import "./App.css";
+import Body from "./components/Body/Body";
+import TabBar from "./components/TabBar";
+
 function App() {
-    return <div className="App"></div>;
+    return (
+        <Body>
+            <TabBar />
+        </Body>
+    );
 }
 
 export default App;
