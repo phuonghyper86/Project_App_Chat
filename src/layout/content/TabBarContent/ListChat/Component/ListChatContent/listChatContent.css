@@ -8,3 +8,37 @@
 .listChatContent__child {
     border-radius: 0.3rem !important;
 }
+.listChatContent_fix_height {
+    top: 0;
+    bottom: 0;
+    left: 8px;
+    right: 0;
+    position: absolute;
+    margin-top: 40px;
+    flex-grow: 1;
+    overflow-y: auto;
+    color: rgba(0, 0, 0, 0);
+    -webkit-text-fill-color: unset;
+    transition: color 0.8s;
+}
+.listChatContent_fix_height:hover {
+    color: var(--bs-gray-400);
+}
+
+.listChatContent_parent {
+    position: relative;
+    flex-grow: 1;
+}
+.fix_scroll::-webkit-scrollbar {
+    width: 5px;
+}
+
+.fix_scroll::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.fix_scroll::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 0 10px;
+    border-radius: 10px;
+}

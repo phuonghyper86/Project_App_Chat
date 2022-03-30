@@ -1,0 +1,22 @@
+.chatContent__body {
+    background-color: var(--bs-card-bg);
+    transition: all 0.4s;
+}
+@media (max-width: 991.98px) {
+    .chatContent__body {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        z-index: 10000;
+    }
+    .chatContent__body.chatContent__body-show {
+        visibility: visible;
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+    }
+}

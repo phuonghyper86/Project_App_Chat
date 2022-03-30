@@ -9,11 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 function TabBar() {
     const theme = useSelector((state) => state.LocalTheme.theme);
     const dispatch = useDispatch();
-    console.log(theme);
     return (
         <Tab.Container defaultActiveKey="chats">
             <Col sm={1} className="col-sm-1_custom">
                 <Nav
+                    fill
                     variant="pills"
                     className="flex-column-sm"
                     style={{
@@ -67,7 +67,7 @@ function TabBar() {
                             )}
                         </button>
                     </Nav.Item>
-                    <Nav.Item>
+                    <Nav.Item className="nav_item_hide">
                         <img
                             className="img_Avatar"
                             src="/logo192.png"
