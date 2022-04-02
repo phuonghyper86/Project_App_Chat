@@ -1,5 +1,6 @@
 .nav-item {
     text-align: center;
+    cursor: pointer;
 }
 
 .logo {
@@ -52,7 +53,7 @@
     }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 991.99px) {
     .col-sm-1_custom {
         width: 100% !important;
     }
