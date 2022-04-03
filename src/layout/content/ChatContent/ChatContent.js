@@ -1,5 +1,5 @@
 import { Avatar } from "components";
-import React from "react";
+import React, { useState } from "react";
 import {
     Col,
     Row,
@@ -14,6 +14,7 @@ import { ListMessage } from "./Component";
 import "./chatContent.css";
 function ChatContent() {
     const show = useSelector((state) => state.ShowMessage.value);
+    const [showInfo, setShowInfo] = useState(false);
     const dispatch = useDispatch();
     const className_chat = show
         ? "chatContent__body chatContent__body-show"
@@ -49,7 +50,10 @@ function ChatContent() {
                         <div className="ChatContent__icon d-none d-lg-flex">
                             <i className="bi bi-camera-video-fill"></i>
                         </div>
-                        <div className="ChatContent__icon d-none d-lg-flex">
+                        <div
+                            className="ChatContent__icon d-none d-lg-flex"
+                            onClick={() => setShowInfo(true)}
+                        >
                             <i className="bi bi-person"></i>
                         </div>
                         <div className="ChatContent__icon d-flex">
@@ -62,15 +66,28 @@ function ChatContent() {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu
                                     align="end"
-                                    className="text-muted"
+                                    className="text-muted ChatContent__dropdown-background"
                                 >
-                                    <Dropdown.Item className="listContact__dropdownItem">
-                                        Muted
-                                        <i className="bi bi-bell-slash float-end text-muted"></i>
+                                    <Dropdown.Item className="listContact__dropdownItem d-lg-none d-block ChatContent__dropdownLink">
+                                        Call
+                                        <i className="bi bi-telephone-fill float-end"></i>
                                     </Dropdown.Item>
-                                    <Dropdown.Item className="listContact__dropdownItem">
+                                    <Dropdown.Item
+                                        className="listContact__dropdownItem d-lg-none d-block ChatContent__dropdownLink"
+                                        onClick={() => {
+                                            setShowInfo(true);
+                                        }}
+                                    >
+                                        Info
+                                        <i className="bi bi-person float-end"></i>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item className="listContact__dropdownItem ChatContent__dropdownLink">
+                                        Muted
+                                        <i className="bi bi-bell-slash float-end"></i>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item className="listContact__dropdownItem ChatContent__dropdownLink">
                                         Delete
-                                        <i className="bi bi-trash3-fill float-end text-muted"></i>
+                                        <i className="bi bi-trash3-fill float-end"></i>
                                     </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -108,6 +125,18 @@ function ChatContent() {
                     </Button>
                 </InputGroup>
             </Row>
+            <div className={`ChatContent__userInfo ${showInfo ? "show" : ""}`}>
+                <div
+                    className="ChatContent__userInfo-buttonClose"
+                    onClick={() => setShowInfo(false)}
+                >
+                    <i className="bi bi-x-circle-fill"></i>
+                </div>
+                <div className="ChatContent__userInfo-avatar">
+                    <Avatar width="5rem" />
+                    <div>Trần Nhất Quang</div>
+                </div>
+            </div>
         </Col>
     );
 }
