@@ -43,16 +43,16 @@ function ChatContent() {
                 </Col>
                 <Col>
                     <div className="d-flex h-100 align-items-center float-end pe-3">
-                        <div className="ChatContent__icon">
+                        <div className="ChatContent__icon d-none d-lg-flex">
                             <i className="bi bi-telephone-fill"></i>
                         </div>
-                        <div className="ChatContent__icon">
+                        <div className="ChatContent__icon d-none d-lg-flex">
                             <i className="bi bi-camera-video-fill"></i>
                         </div>
-                        <div className="ChatContent__icon">
+                        <div className="ChatContent__icon d-none d-lg-flex">
                             <i className="bi bi-person"></i>
                         </div>
-                        <div className="ChatContent__icon">
+                        <div className="ChatContent__icon d-flex">
                             <Dropdown>
                                 <Dropdown.Toggle
                                     as="div"
@@ -78,7 +78,7 @@ function ChatContent() {
                     </div>
                 </Col>
             </Row>
-            <Row className="flex-grow-1 position-relative">
+            <Row className="flex-grow-1 position-relative p-3">
                 <ListMessage />
             </Row>
             <Row className="top_border p-2 p-lg-3">

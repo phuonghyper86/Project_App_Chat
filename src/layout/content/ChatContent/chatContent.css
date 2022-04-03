@@ -29,6 +29,7 @@
     margin-left: 1rem;
     font-size: larger;
     cursor: pointer;
+    align-items: center;
 }
 
 .chatContent__input{

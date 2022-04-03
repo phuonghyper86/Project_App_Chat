@@ -6,8 +6,7 @@ function ListMessage() {
     return (
         <div className="ListMessage__parent">
             <div className="ListMessage__listChild fix_scroll">
-                <Avatar />
-                <Avatar />
+                <Message />
             </div>
         </div>
     );
