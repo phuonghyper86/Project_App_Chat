@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 const initialState = {
-    User: {},
-    pending: false,
+    user: null,
+    pending: true,
 };
 
 export const Login = createAsyncThunk("user/login", async () => {
@@ -16,8 +16,14 @@ export const UserSlice = createSlice({
     name: "User",
     initialState,
     reducers: {
-        LogIn: (state) => {},
-        LogOut: (state) => {},
+        LogIn: (state, action) => {
+            state.user = { ...state.user, ...action.payload };
+            state.pending = false;
+        },
+        LogOut: (state) => {
+            state.user = null;
+            state.pending = false;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(Login.pending, (state, action) => {
