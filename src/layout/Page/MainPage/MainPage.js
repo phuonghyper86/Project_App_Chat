@@ -2,22 +2,18 @@ import React from "react";
 import { Body, TabBar } from "components";
 import { ChatContent } from "layout/content/";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { auth } from "configs/firebase/config";
 import { SetIsPending } from "configs/redux/Slice/UserSlice";
-import LoadingPage from "layout/Page/LoadingPage/LoadingPage";
 function MainPage() {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.UserInfo.user);
-    const isLoading = useSelector((state) => state.UserInfo.pending);
-    const navigate = useNavigate();
 
     const handleSignOut = async () => {
         dispatch(SetIsPending());
         auth.signOut().then(() => {});
     };
-    if (isLoading === true) return <LoadingPage />;
-    else if (currentUser !== null)
+    if (currentUser !== null)
         return (
             <Body>
                 <button onClick={() => handleSignOut()}>AL</button>
@@ -29,4 +25,4 @@ function MainPage() {
     else return <Navigate to="/Login" />;
 }
 
-export default MainPage;
+export default React.memo(MainPage);

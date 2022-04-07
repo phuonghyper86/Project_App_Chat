@@ -26,4 +26,4 @@ function AuthProvider({ children }) {
     return <>{children}</>;
 }
 
-export default AuthProvider;
+export default React.memo(AuthProvider);

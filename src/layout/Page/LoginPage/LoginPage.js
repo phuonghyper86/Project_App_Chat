@@ -1,29 +1,35 @@
 import React from "react";
-import { uiConfig, auth } from "configs/firebase/config";
-import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import { auth } from "configs/firebase/config";
 import { Navigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { SetIsPending } from "configs/redux/Slice/UserSlice";
-import LoadingPage from "layout/Page/LoadingPage/LoadingPage";
+import { useSelector } from "react-redux";
+import {
+    signInWithRedirect,
+    GoogleAuthProvider,
+    FacebookAuthProvider,
+} from "firebase/auth";
+
+const GoogleProvider = new GoogleAuthProvider();
+const FacebookProvider = new FacebookAuthProvider();
 
 function LoginPage() {
     const currentUser = useSelector((state) => state.UserInfo.user);
-    const isLoading = useSelector((state) => state.UserInfo.pending);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    if (isLoading === true) return <LoadingPage />;
-    else if (currentUser === null)
+    console.log("Login");
+    const handleSignIn = async (provider) => {
+        signInWithRedirect(auth, provider);
+    };
+
+    if (currentUser === null)
         return (
             <div>
-                <StyledFirebaseAuth
-                    onClick={() => dispatch(SetIsPending())}
-                    uiConfig={uiConfig}
-                    firebaseAuth={auth}
-                />
+                <button onClick={() => handleSignIn(GoogleProvider)}>
+                    Google
+                </button>
+                <button onClick={() => handleSignIn(FacebookProvider)}>
+                    Facebook
+                </button>
             </div>
         );
     else return <Navigate to="/MainPage" />;
 }
 
-export default LoginPage;
+export default React.memo(LoginPage);
