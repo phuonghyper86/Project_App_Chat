@@ -2,18 +2,25 @@ import React from "react";
 import { uiConfig, auth } from "configs/firebase/config";
 import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { SetIsPending } from "configs/redux/Slice/UserSlice";
+import LoadingPage from "layout/Page/LoadingPage/LoadingPage";
 
 function LoginPage() {
     const currentUser = useSelector((state) => state.UserInfo.user);
-    console.log(currentUser);
+    const isLoading = useSelector((state) => state.UserInfo.pending);
     const navigate = useNavigate();
-    if (currentUser === null)
+    const dispatch = useDispatch();
+    if (isLoading === true) return <LoadingPage />;
+    else if (currentUser === null)
         return (
             <div>
-                <button onClick={() => navigate("/MainPage")}></button>
-                <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={auth} />
+                <StyledFirebaseAuth
+                    onClick={() => dispatch(SetIsPending())}
+                    uiConfig={uiConfig}
+                    firebaseAuth={auth}
+                />
             </div>
         );
     else return <Navigate to="/MainPage" />;

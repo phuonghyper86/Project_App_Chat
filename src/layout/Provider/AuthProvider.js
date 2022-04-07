@@ -2,15 +2,15 @@ import React, { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "configs/firebase/config";
 import { LogIn, LogOut } from "configs/redux/Slice/UserSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import LoadingPage from "layout/Page/LoadingPage/LoadingPage";
 function AuthProvider({ children }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLoading = useSelector((state) => state.UserInfo.pending);
     useLayoutEffect(() => {
         const unsubscribed = auth.onAuthStateChanged((user) => {
-            console.log(user);
             if (user !== null) {
-                console.log(user);
                 const { displayName, email, uid, photoURL } = user;
                 dispatch(LogIn({ displayName, email, uid, photoURL }));
             } else {
@@ -22,6 +22,7 @@ function AuthProvider({ children }) {
             unsubscribed();
         };
     }, [dispatch, navigate]);
+    if (isLoading === true) return <LoadingPage />;
     return <>{children}</>;
 }
 
