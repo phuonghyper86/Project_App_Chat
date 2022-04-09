@@ -11,13 +11,15 @@ const firebaseConfig = {
     messagingSenderId: "965486165414",
     appId: "1:965486165414:web:a66a2ffeaa765aae6da367",
     measurementId: "G-KGC0M11M43",
+    databaseURL:
+        "https://chatapp-fe4a6-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
 // Initialize Firebase
 const firebase = initializeApp(firebaseConfig);
 
 // Get Database
-const db = getDatabase();
+const db = getDatabase(firebase);
 if (window.location.hostname === "localhost") {
     // Point to the RTDB emulator running on localhost.
     connectDatabaseEmulator(db, "localhost", 9000);

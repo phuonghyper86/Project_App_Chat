@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "./LoadingPage.module.css";
 function LoadingPage() {
-    console.log("LOADING");
     return (
         <div className={styled.loader}>
             <div className={styled.bezel}></div>
