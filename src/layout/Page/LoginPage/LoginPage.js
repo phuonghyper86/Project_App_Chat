@@ -20,22 +20,25 @@ function LoginPage() {
     };
     useEffect(() => {
         const getResult = async () => {
-            const { _tokenResponse, user } = await getRedirectResult(auth);
-            if (_tokenResponse?.isNewUser) {
-                addRecord("users/", {
-                    displayName: user.displayName,
-                    email: user.email,
-                    photoURL: user.photoURL,
-                    uid: user.uid,
-                    listFriend: null,
-                    listGroup: null,
-                    listChat: null,
-                    listInvite: null,
-                    IsOnline: true,
-                    providerId: _tokenResponse.providerId,
-                });
-            } else {
-                updateRecord("users/", "uid", user.uid, { IsOnline: true });
+            const result = await getRedirectResult(auth);
+            if (result !== null) {
+                const { _tokenResponse, user } = result;
+                if (_tokenResponse?.isNewUser) {
+                    addRecord("users/", {
+                        displayName: user.displayName,
+                        email: user.email,
+                        photoURL: user.photoURL,
+                        uid: user.uid,
+                        listFriend: null,
+                        listGroup: null,
+                        listChat: null,
+                        listInvite: null,
+                        IsOnline: true,
+                        providerId: _tokenResponse.providerId,
+                    });
+                } else {
+                    updateRecord("users/", "uid", user.uid, { IsOnline: true });
+                }
             }
         };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     Row,
     Col,
@@ -7,10 +7,15 @@ import {
     OverlayTrigger,
     Tooltip,
     Dropdown,
+    Modal,
 } from "react-bootstrap";
 import { Avatar } from "components";
+import { useSelector } from "react-redux";
 import "./listContact.css";
+
 function ListContact() {
+    const localTheme = useSelector((state) => state.LocalTheme.theme);
+    const [show, setShow] = useState(false);
     return (
         <div className="pt-4 px-3 ListContact__Parent">
             <Row>
@@ -18,11 +23,44 @@ function ListContact() {
                     <h4 className="mb-4">Contacts</h4>
                 </Col>
                 <Col>
+                    <Modal
+                        show={show}
+                        centered
+                        onHide={() => setShow(false)}
+                        data-layout-mode={localTheme}
+                    >
+                        <Modal.Header closeButton className="modal__bg-fix">
+                            <h5>Add contact</h5>
+                        </Modal.Header>
+                        <Modal.Body className="modal__bg-fix">
+                            <InputGroup className="mb-4 rounded-3">
+                                <InputGroup.Text
+                                    className="bg-light ps-3 pe-1 text-muted-bg border-0"
+                                    id="basic-addon1"
+                                >
+                                    <i
+                                        className="bi bi-search cur-pointer"
+                                        style={{ lineHeight: 2 }}
+                                    ></i>
+                                </InputGroup.Text>
+                                <FormControl
+                                    className="bg-light border-0 seach__text-color"
+                                    placeholder="Search users..."
+                                    aria-label="Search users..."
+                                    aria-describedby="basic-addon1"
+                                />
+                            </InputGroup>
+                            <h6>List contact</h6>
+                        </Modal.Body>
+                    </Modal>
                     <OverlayTrigger
                         placement="bottom"
                         overlay={<Tooltip>Add Contact</Tooltip>}
                     >
-                        <i className="bi bi-person-plus-fill fz-20 float-end me-2 cur-pointer"></i>
+                        <i
+                            className="bi bi-person-plus-fill fz-20 float-end me-2 cur-pointer"
+                            onClick={() => setShow(true)}
+                        ></i>
                     </OverlayTrigger>
                 </Col>
             </Row>
@@ -31,10 +69,7 @@ function ListContact() {
                     className="bg-light ps-3 pe-1 text-muted-bg border-0"
                     id="basic-addon1"
                 >
-                    <i
-                        className="bi bi-search cur-pointer"
-                        style={{ lineHeight: 2 }}
-                    ></i>
+                    <i className="bi bi-search cur-pointer lh-2"></i>
                 </InputGroup.Text>
                 <FormControl
                     className="bg-light border-0 seach__text-color"

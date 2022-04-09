@@ -1,19 +1,21 @@
 import React from "react";
 import Tab from "react-bootstrap/Tab";
+import logo from "image/logo.png";
+import Avatar from "components/Avatar";
 import { Col, Nav, Dropdown } from "react-bootstrap";
 import { TabBarContent } from "layout/content";
-import "./TabBar.css";
 import { change } from "configs/redux/Slice/ThemeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "configs/firebase/config";
 import { SetIsPending } from "configs/redux/Slice/UserSlice";
-import Avatar from "components/Avatar";
 import { updateRecord } from "configs/firebase/service";
+import { useNavigate } from "react-router-dom";
+import "./TabBar.css";
 
 function TabBar() {
     const theme = useSelector((state) => state.LocalTheme.theme);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const handleSignOut = async () => {
         const userId = auth.currentUser.uid;
         dispatch(SetIsPending());
@@ -39,8 +41,11 @@ function TabBar() {
                     <Nav.Item className="nav_item_hide">
                         <img
                             className="logo"
-                            src="https://img.icons8.com/material-outlined/96/7269e6/attack-on-titan.png"
+                            src={logo}
                             alt="Chats"
+                            onClick={() => {
+                                navigate("/");
+                            }}
                         />
                     </Nav.Item>
                     <Nav.Item>
