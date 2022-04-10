@@ -27,7 +27,7 @@ if (window.location.hostname === "localhost") {
 
 // Get auth
 const auth = getAuth(firebase);
-connectAuthEmulator(auth, "http://localhost:9099");
+//connectAuthEmulator(auth, "http://localhost:9099");
 
 export const uiConfig = {
     // Popup signin flow rather than redirect flow.
