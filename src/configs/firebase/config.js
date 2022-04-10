@@ -20,14 +20,14 @@ const firebase = initializeApp(firebaseConfig);
 
 // Get Database
 const db = getDatabase(firebase);
-if (window.location.hostname === "localhost") {
-    // Point to the RTDB emulator running on localhost.
-    connectDatabaseEmulator(db, "localhost", 9000);
-}
+// if (window.location.hostname === "localhost") {
+//     // Point to the RTDB emulator running on localhost.
+//     connectDatabaseEmulator(db, "localhost", 9000);
+// }
 
 // Get auth
 const auth = getAuth(firebase);
-connectAuthEmulator(auth, "http://localhost:9099");
+// connectAuthEmulator(auth, "http://localhost:9099");
 
 export const uiConfig = {
     // Popup signin flow rather than redirect flow.
