@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Row,
     Col,
@@ -9,13 +9,39 @@ import {
     Dropdown,
     Modal,
 } from "react-bootstrap";
-import { Avatar } from "components";
+import { Avatar, CardInvite } from "components";
 import { useSelector } from "react-redux";
+import { validateUTF8Name } from "configs/Validate";
+import { findRecordString } from "configs/firebase/service";
 import "./listContact.css";
 
 function ListContact() {
     const localTheme = useSelector((state) => state.LocalTheme.theme);
     const [show, setShow] = useState(false);
+    const [showRequset, setShowRequset] = useState(false);
+    const [searchInvite, setSearchInvite] = useState("");
+    const [listToInvite, setListToInvite] = useState([]);
+
+    const handleChangeSearchInvite = (e) => {
+        setSearchInvite(e.target.value);
+    };
+
+    useEffect(() => {
+        const GetResult = async () => {
+            if (searchInvite && validateUTF8Name(searchInvite)) {
+                const result = await findRecordString(
+                    "users",
+                    "displayName",
+                    searchInvite
+                );
+                setListToInvite(result);
+            } else {
+                setListToInvite([]);
+            }
+        };
+        GetResult();
+    }, [searchInvite]);
+
     return (
         <div className="pt-4 px-3 ListContact__Parent">
             <Row>
@@ -23,6 +49,7 @@ function ListContact() {
                     <h4 className="mb-4">Contacts</h4>
                 </Col>
                 <Col>
+                    {/* Show add contact */}
                     <Modal
                         show={show}
                         centered
@@ -44,13 +71,22 @@ function ListContact() {
                                     ></i>
                                 </InputGroup.Text>
                                 <FormControl
+                                    onChange={handleChangeSearchInvite}
                                     className="bg-light border-0 seach__text-color"
                                     placeholder="Search users..."
                                     aria-label="Search users..."
                                     aria-describedby="basic-addon1"
+                                    value={searchInvite}
                                 />
                             </InputGroup>
                             <h6>List contact</h6>
+                            {listToInvite.map((value) => (
+                                <CardInvite
+                                    key={value.key}
+                                    keyId={value.key}
+                                    value={value.val}
+                                />
+                            ))}
                         </Modal.Body>
                     </Modal>
                     <OverlayTrigger
@@ -78,6 +114,47 @@ function ListContact() {
                     aria-describedby="basic-addon1"
                 />
             </InputGroup>
+            {/* Show friend invite */}
+            <Modal
+                show={showRequset}
+                centered
+                onHide={() => setShowRequset(false)}
+                data-layout-mode={localTheme}
+            >
+                <Modal.Header closeButton className="modal__bg-fix">
+                    <h5>Friend Request</h5>
+                </Modal.Header>
+                <Modal.Body className="modal__bg-fix">
+                    <InputGroup className="mb-4 rounded-3">
+                        <InputGroup.Text
+                            className="bg-light ps-3 pe-1 text-muted-bg border-0"
+                            id="basic-addon1"
+                        >
+                            <i
+                                className="bi bi-search cur-pointer"
+                                style={{ lineHeight: 2 }}
+                            ></i>
+                        </InputGroup.Text>
+                        <FormControl
+                            className="bg-light border-0 seach__text-color"
+                            placeholder="Search users..."
+                            aria-label="Search users..."
+                            aria-describedby="basic-addon1"
+                        />
+                    </InputGroup>
+                    <h6>List request</h6>
+                </Modal.Body>
+            </Modal>
+            <h6
+                className="friend_request_parent"
+                onClick={() => setShowRequset(true)}
+            >
+                <div className="friend_request_parent-image">
+                    <i className="bi bi-envelope-plus-fill"></i>
+                </div>
+                <div className="friend_request_parent-text">Friend Request</div>
+            </h6>
+
             <div className="ListContact__Child">
                 <div className="ListContact__NodeChild fix_scroll">
                     <div className="listContact__GroupAtoZ">

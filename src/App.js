@@ -4,6 +4,7 @@ import MainPage from "layout/Page/MainPage/MainPage";
 import LoginPage from "layout/Page/LoginPage/LoginPage";
 import { Navigate } from "react-router-dom";
 import AuthProvider from "layout/Provider/AuthProvider";
+
 function App() {
     return (
         <AuthProvider>
