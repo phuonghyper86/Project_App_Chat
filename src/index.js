@@ -14,7 +14,11 @@ import "slick-carousel/slick/slick-theme.css";
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <BrowserRouter>
+            <BrowserRouter
+                basename={
+                    "https://trannhatquang2405.github.io/Project_TKPMHDT/"
+                }
+            >
                 <App />
             </BrowserRouter>
         </Provider>
