@@ -14,6 +14,7 @@ import "./TabBar.css";
 
 function TabBar() {
     const theme = useSelector((state) => state.LocalTheme.theme);
+    const user = useSelector((state) => state.UserInfo.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleSignOut = async () => {
@@ -94,7 +95,10 @@ function TabBar() {
                                 as="div"
                                 bsPrefix="listContact__dropdownToggle"
                             >
-                                <Avatar width="4rem" />
+                                <Avatar
+                                    width="3.5rem"
+                                    url={user?.photoURL && user.photoURL}
+                                />
                             </Dropdown.Toggle>
                             <Dropdown.Menu
                                 align="end"
