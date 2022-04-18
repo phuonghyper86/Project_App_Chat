@@ -46,7 +46,7 @@ const SignIn = (props) => {
                             <Form>
                                 <FormGroup className="mb-3">
                                     <FormLabel className="SignIn__form-label">
-                                        Username
+                                        Email
                                     </FormLabel>
                                     <InputGroup className="mb-3">
                                         <InputGroup.Text className="SignIn__input-text">
@@ -55,8 +55,8 @@ const SignIn = (props) => {
 
                                         <FormControl
                                             className="SignIn__form-control SignIn__form-control-lg SignIn__form SignIn__bg-soft-light"
-                                            placeholder="Enter Username"
-                                            aria-label="Enter Username"
+                                            placeholder="Enter Email"
+                                            aria-label="Enter Email"
                                             required
                                         />
                                     </InputGroup>
@@ -117,7 +117,7 @@ const SignIn = (props) => {
                                     <Button
                                         className="SignIn__btn-signin-fb"
                                         onClick={() =>
-                                            handleSignIn(providers["google"])
+                                            handleSignIn(providers["facebook"])
                                         }
                                     >
                                         <i className="bi bi-facebook SignIn__btn-icon" />
@@ -131,7 +131,7 @@ const SignIn = (props) => {
                                     <Button
                                         className="SignIn__btn-signin-gg"
                                         onClick={() =>
-                                            handleSignIn(providers["facebook"])
+                                            handleSignIn(providers["google"])
                                         }
                                     >
                                         <i className="bi bi-google SignIn__btn-icon" />

@@ -102,7 +102,7 @@ function ChatContent() {
             <Row className="top_border p-2 p-lg-3 chatContent__input-parent">
                 <InputGroup>
                     <FormControl
-                        className="bg-light border-0 seach__text-color chatContent__input"
+                        className="bg-light border-0 seach__text-color chatContent__input fix_scroll"
                         placeholder="Enter Message..."
                         aria-label="Message"
                         as="textarea"
