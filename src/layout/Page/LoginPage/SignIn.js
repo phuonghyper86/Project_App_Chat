@@ -13,8 +13,15 @@ import {
     FormGroup,
     Button,
 } from "react-bootstrap";
+import { GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 
-const SignIn = () => {
+const providers = {
+    google: new GoogleAuthProvider(),
+    facebook: new FacebookAuthProvider(),
+};
+
+const SignIn = (props) => {
+    const { handleSignIn } = props;
     return (
         <div className="SignIn__account-pages pt-3">
             <Row className="justify-content-center">
@@ -76,6 +83,7 @@ const SignIn = () => {
                                             placeholder="Enter Password"
                                             aria-label="Enter Password"
                                             type="password"
+                                            autoComplete="true"
                                             required
                                         />
                                     </InputGroup>
@@ -85,7 +93,7 @@ const SignIn = () => {
                                     controlId="formBasicCheckbox"
                                 >
                                     <FormCheck
-                                        className="cur-pointer"
+                                        className="SignIn__form-check"
                                         type="checkbox"
                                         label="Remember Me"
                                     />
@@ -106,32 +114,40 @@ const SignIn = () => {
 
                             <div className="other-signin">
                                 <div className="d-grid">
-                                    <button
-                                        className="btn btn-primary waves-effect waves-light btn-signin-fb"
-                                        type="submit"
+                                    <Button
+                                        className="SignIn__btn-signin-fb"
+                                        onClick={() =>
+                                            handleSignIn(providers["google"])
+                                        }
                                     >
-                                        <i className="bi bi-facebook" />
-                                        Sign in with Facebook
-                                    </button>
+                                        <i className="bi bi-facebook SignIn__btn-icon" />
+                                        <span className="SignIn__btn-text">
+                                            Sign in with Facebook
+                                        </span>
+                                    </Button>
                                 </div>
 
                                 <div className="d-grid">
-                                    <button
-                                        className="btn btn-primary waves-effect waves-light btn-signin-gg"
-                                        type="submit"
+                                    <Button
+                                        className="SignIn__btn-signin-gg"
+                                        onClick={() =>
+                                            handleSignIn(providers["facebook"])
+                                        }
                                     >
-                                        <i className="bi bi-google" />
-                                        Sign in with Google
-                                    </button>
+                                        <i className="bi bi-google SignIn__btn-icon" />
+                                        <span className="SignIn__btn-text">
+                                            Sign in with Google
+                                        </span>
+                                    </Button>
                                 </div>
                             </div>
                         </Card.Body>
                     </Card>
 
-                    <div className="sign-up mt-5 text-center">
+                    <div className="SignIn__sign-up mt-3 text-center">
                         <p>
                             Don't have an account ?
-                            <a href="/Home" className="fw-medium text-primary">
+                            <a href="/Home" className="ms-1 text-primary">
                                 Signup now
                             </a>
                         </p>

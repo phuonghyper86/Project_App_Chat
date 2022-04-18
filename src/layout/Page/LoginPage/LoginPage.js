@@ -65,7 +65,7 @@ function LoginPage() {
         return (
             <div>
                 <Body>
-                    <SignIn />
+                    <SignIn handleSignIn={handleSignIn} />
                 </Body>
             </div>
         );
@@ -73,9 +73,3 @@ function LoginPage() {
 }
 
 export default React.memo(LoginPage);
-// <button onClick={() => handleSignIn(providers["google"])}>
-// Google
-// </button>
-// <button onClick={() => handleSignIn(providers["facebook"])}>
-// Facebook
-// </button>
