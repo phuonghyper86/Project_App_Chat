@@ -15,7 +15,7 @@ export const addUser = async (user, _tokenResponse) => {
     });
 };
 
-export const inviteFriend = async (KeyId, currentUserId) => {
+export const inviteFriend = async (KeyId, friendUid, currentUserId) => {
     await addRecord(`users/${KeyId}/listInvite`, {
         uid: currentUserId,
     });
@@ -23,7 +23,7 @@ export const inviteFriend = async (KeyId, currentUserId) => {
     console.log(value[0].key);
     if (value && Array.isArray(value))
         await addRecord(`users/${value[0].key}/listWait`, {
-            uid: KeyId,
+            uid: friendUid,
         });
 };
 
