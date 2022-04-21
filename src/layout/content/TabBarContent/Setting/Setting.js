@@ -1,5 +1,4 @@
 import React from "react";
-import "./setting.css";
 import { Avatar } from "components";
 import { Accordion, Form } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,6 +6,7 @@ import { SetIsPending } from "configs/redux/Slice/UserSlice";
 import { auth } from "configs/firebase/config";
 import { updateLogOut } from "configs/firebase/ServiceFirebase/ServiceUpdate";
 import { change } from "configs/redux/Slice/ThemeSlice";
+import "./setting.css";
 
 function Setting() {
     const currentUser = useSelector((state) => state.UserInfo.user);
@@ -25,7 +25,7 @@ function Setting() {
     return (
         <div className="Setting__body">
             <div className="ChatContent__userInfo-avatar">
-                <Avatar width="5rem" />
+                <Avatar width="5rem" url={currentUser.photoURL}/>
                 <div className="mt-2">{currentUser.displayName}</div>
             </div>
             <div className="ChatContent__userInfo-body fix_scroll p-4">

@@ -20,18 +20,10 @@ export const inviteFriend = async (KeyId, friendUid, currentUserId) => {
         uid: currentUserId,
     });
     const value = await findExactRecord("users", "uid", currentUserId);
-    console.log(value[0].key);
     if (value && Array.isArray(value))
         await addRecord(`users/${value[0].key}/listWait`, {
             uid: friendUid,
         });
-};
-
-export const unInviteFriend = async (userId, currentUserId) => {
-    // const key = await findExactRecord("users", "uid", userId);
-    // await addRecord(`user/${key[0]}/listInvite`, {
-    //     uid: currentUserId,
-    // });
 };
 
 export const AddFriend = async (userId, currentUserId) => {};
