@@ -20,17 +20,17 @@
     padding: 0 auto;
 }
 
-.ListContact__Parent{
+.ListContact__Parent {
     position: relative;
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
-.ListContact__Child{
+.ListContact__Child {
     position: relative;
     flex-grow: 1;
 }
-.ListContact__NodeChild{
+.ListContact__NodeChild {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -46,12 +46,12 @@
     color: var(--bs-gray-400);
 }
 @media (max-width: 991.99px) {
-    .ListContact__NodeChild{
+    .ListContact__NodeChild {
         bottom: 52px;
     }
 }
 
-.friend_request_parent{
+.friend_request_parent {
     display: flex;
     flex-direction: row;
     cursor: pointer;
@@ -59,17 +59,30 @@
     background-color: transparent;
     border-radius: 10px;
 }
-.friend_request_parent:hover{
+.friend_request_parent:hover {
     background-color: var(--bs-gray-200);
 }
-.friend_request_parent-image{
+.friend_request_parent-image {
     align-self: center;
     font-size: x-large;
     background-color: #7268ef;
     padding: 8px 10px;
     border-radius: 50%;
 }
-.friend_request_parent-text{
+.friend_request_parent-text {
     align-self: center;
     margin-left: 10px;
+}
+.friend_request_parent-length {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row-reverse;
+}
+.friend_request_parent-lengthContent {
+    display: flex !important;
+    height: fit-content !important;
+    align-self: center;
+    padding: 6px 8px !important;
+    text-align: center !important;
+    border-radius: 50% !important;
 }
