@@ -33,11 +33,9 @@ function ListContact() {
     useListFriend(currentUser.uid);
 
     const filterListFriend = (val) => {
-        console.log(val);
         const tmp = listFriendInfo.filter((value) => {
             return value.uid === val.uid;
         });
-        console.log(tmp);
         if (tmp.length > 0) return false;
         else return true;
     };
