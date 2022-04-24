@@ -1,14 +1,14 @@
-.ListGroup__Parent{
+.ListGroup__Parent {
     position: relative;
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
-.ListGroup__Child{
+.ListGroup__Child {
     position: relative;
     flex-grow: 1;
 }
-.ListGroup__NodeChild{
+.ListGroup__NodeChild {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -25,7 +25,10 @@
 }
 
 @media (max-width: 991.99px) {
-    .ListGroup__NodeChild{
+    .ListGroup__NodeChild {
         bottom: 52px;
     }
+}
+.input__fileImage {
+    display: none !important;
 }

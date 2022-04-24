@@ -13,7 +13,7 @@ function Avatar(props) {
                 style={{
                     width: `${width}`,
                 }}
-                className="mx-auto"
+                className="mx-auto image-square"
             ></Image>
             {status != null ? (
                 <span

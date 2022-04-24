@@ -76,3 +76,13 @@ export const getAllListFriend = async (uid) => {
     );
     return listFriend;
 };
+
+export const getAllListMessage = async (uid) => {
+    const listMessage = await findAllChildOfSpecialCollect(
+        "users",
+        "uid",
+        uid,
+        "listMessage"
+    );
+    return listMessage;
+};

@@ -13,10 +13,11 @@ import { db } from "configs/firebase/config";
 
 export const addRecord = async (colect, data) => {
     try {
-        push(ref(db, colect), {
+        const key = push(ref(db, colect), {
             ...data,
             createAt: serverTimestamp(),
-        });
+        }).then((e) => e.key);
+        return key;
     } catch (error) {
         console.log(error);
     }

@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, FacebookAuthProvider } from "firebase/auth";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCG1qZI7gpxhSdz54_mQH9wlmmb8zwfn-I",
@@ -23,12 +24,15 @@ const db = getDatabase(firebase);
 
 // Get auth
 const auth = getAuth(firebase);
+
+const storage = getStorage(firebase);
+
 if (window.location.hostname === "localhost") {
     // Point to the RTDB emulator running on localhost.
     connectDatabaseEmulator(db, "localhost", 9000);
     connectAuthEmulator(auth, "http://localhost:9099");
+    connectStorageEmulator(storage, "localhost", 9199);
 }
-
 export const uiConfig = {
     // Popup signin flow rather than redirect flow.
     signInFlow: "redirect",
@@ -40,4 +44,4 @@ export const uiConfig = {
     ],
 };
 
-export { firebase, auth, db };
+export { firebase, auth, db, storage };

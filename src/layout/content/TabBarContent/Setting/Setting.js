@@ -16,16 +16,17 @@ function Setting() {
     const handleSignOut = async () => {
         const userId = auth.currentUser.uid;
         dispatch(SetIsPending());
-        auth.signOut()
-            .then(() => {
-                updateLogOut(userId);
-            })
-            .catch((e) => console.log(e));
+        try {
+            await updateLogOut(userId);
+            await auth.signOut();
+        } catch (e) {
+            console.log(e);
+        }
     };
     return (
         <div className="Setting__body">
             <div className="ChatContent__userInfo-avatar">
-                <Avatar width="5rem" url={currentUser.photoURL}/>
+                <Avatar width="5rem" url={currentUser.photoURL} />
                 <div className="mt-2">{currentUser.displayName}</div>
             </div>
             <div className="ChatContent__userInfo-body fix_scroll p-4">

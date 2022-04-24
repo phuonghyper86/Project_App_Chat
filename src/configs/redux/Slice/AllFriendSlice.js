@@ -11,7 +11,7 @@ export const GetAll = createAsyncThunk("AllFriend/getall", async (uid) => {
 });
 
 export const AllFriendSlice = createSlice({
-    name: "User",
+    name: "AllFriend",
     initialState,
     reducers: {
         add: (state, action) => {
