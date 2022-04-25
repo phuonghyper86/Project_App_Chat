@@ -21,10 +21,6 @@ export const AllFriendSlice = createSlice({
                     state.listFriend.push(child);
             });
         },
-        clear: (state) => {
-            state.listUser = null;
-            state.pending = true;
-        },
     },
     extraReducers: (builder) => {
         builder.addCase(GetAll.pending, (state, action) => {
@@ -38,6 +34,6 @@ export const AllFriendSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { clear, add } = AllFriendSlice.actions;
+export const { add } = AllFriendSlice.actions;
 
 export default AllFriendSlice.reducer;

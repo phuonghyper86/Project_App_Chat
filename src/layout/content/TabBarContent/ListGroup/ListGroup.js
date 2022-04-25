@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     Row,
     Col,
     InputGroup,
     FormControl,
-    Badge,
     OverlayTrigger,
     Tooltip,
     Modal,
@@ -14,15 +13,22 @@ import {
 } from "react-bootstrap";
 import "./listGroup.css";
 import { Avatar } from "components";
-import { useSelector } from "react-redux";
+import GroupItem from "./GroupItem";
+import { useSelector, useDispatch } from "react-redux";
 import { addMessage } from "configs/firebase/ServiceFirebase/ServiceInsert";
 import { uploadImage } from "configs/firebase/StorageFirebase";
+import { findMessageByKey } from "configs/firebase/ServiceFirebase/ServiceFind";
+import { GetAll } from "configs/redux/Slice/AllGroupSlice";
+import useListGroup from "configs/customHook/useListGroup";
 
 function ListGroup() {
     const [show, setShow] = useState(false);
     const localTheme = useSelector((state) => state.LocalTheme.theme);
     const currentUser = useSelector((state) => state.UserInfo.user);
+    const listGroup = useSelector((state) => state.AllGroup.listGroup);
+    const dispatch = useDispatch();
     const [showDialog, setShowDialog] = useState(false);
+    const [listGroupInfo, setlistGroupInfo] = useState([]);
     const [alert, setAlert] = useState(false);
     const [groupCreate, setGroupCreate] = useState({
         groupName: "",
@@ -30,7 +36,14 @@ function ListGroup() {
         image: "",
         file: null,
     });
-
+    useListGroup(currentUser.uid);
+    const filterListGroup = (val) => {
+        const tmp = listGroupInfo.filter((value) => {
+            return value.key === val.key;
+        });
+        if (tmp.length > 0) return false;
+        else return true;
+    };
     const handleChangeName = (e) => {
         var text = e.target.value;
         setGroupCreate((prev) => {
@@ -95,6 +108,46 @@ function ListGroup() {
                 });
         }
     };
+
+    const sortNameGroup = (a, b) => {
+        if (a.name < b.name) {
+            return -1;
+        }
+        if (a.name > b.name) {
+            return 1;
+        }
+        return 0;
+    };
+
+    useEffect(() => {
+        let isMounted = true;
+        const handleGetData = async () => {
+            if (isMounted) {
+                dispatch(GetAll(currentUser.uid));
+            }
+        };
+        handleGetData();
+        return () => {
+            isMounted = false;
+        };
+    }, [currentUser.uid, dispatch]);
+
+    useEffect(() => {
+        let isMounted = true;
+        const handleLoad = async () => {
+            listGroup.forEach(async (key) => {
+                const get = await findMessageByKey(key);
+                if (isMounted)
+                    if (filterListGroup(get))
+                        setlistGroupInfo((prev) => [...prev, get]);
+            });
+        };
+        if (listGroup) handleLoad();
+        return () => {
+            isMounted = false;
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listGroup]);
 
     return (
         <div className="pt-4 px-3 ListGroup__Parent">
@@ -229,44 +282,16 @@ function ListGroup() {
             </InputGroup>
             <div className="ListGroup__Child">
                 <div className="ListGroup__NodeChild fix_scroll">
-                    <div className="p-2 d-flex cur-pointer listChatContent__child">
-                        <Col lg={2} xs={2} className="align-self-center">
-                            <Avatar width="80%" />
-                        </Col>
-                        <Col
-                            lg={8}
-                            xs={8}
-                            className="align-self-center flex-grow-1"
-                        >
-                            <h5 className="fz-15 ps-2 text-truncate">
-                                Trần Nhất Quang
-                            </h5>
-                        </Col>
-                        <Col lg="auto" xs="auto" className="align-self-center">
-                            <Badge className="float-end" pill bg="danger">
-                                9+
-                            </Badge>
-                        </Col>
-                    </div>
-                    <div className="p-2 d-flex cur-pointer listChatContent__child">
-                        <Col lg={2} xs={2} className="align-self-center">
-                            <Avatar width="80%" />
-                        </Col>
-                        <Col
-                            lg={8}
-                            xs={8}
-                            className="align-self-center flex-grow-1"
-                        >
-                            <h5 className="fz-15 ps-2 text-truncate">
-                                Trần Nhất Quang
-                            </h5>
-                        </Col>
-                        <Col lg="auto" xs="auto" className="align-self-center">
-                            <Badge className="float-end" pill bg="danger">
-                                9+
-                            </Badge>
-                        </Col>
-                    </div>
+                    {listGroupInfo &&
+                        listGroupInfo.length > 0 &&
+                        listGroupInfo.sort(sortNameGroup) &&
+                        listGroupInfo.map((value, index) => (
+                            <GroupItem
+                                val={value.val}
+                                key={index}
+                                keyId={value.key}
+                            />
+                        ))}
                 </div>
             </div>
         </div>

@@ -48,6 +48,19 @@ export const findAllChildOfSpecialCollect = async (
     return result;
 };
 
+export const findAllChildOfRecord = async (colect, key) => {
+    let listResult = {};
+    const queryGet = query(ref(db, `${colect}/${key}`));
+    await get(queryGet)
+        .then((snapshot) => {
+            let key = snapshot.key;
+            let val = snapshot.val();
+            listResult = { key, val };
+        })
+        .catch((e) => console.log(e));
+    return listResult;
+};
+
 export const findAll = async (colect, child) => {
     let listResult = [];
     const queryGet = query(ref(db, `${colect}/${child}`));

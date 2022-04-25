@@ -2,6 +2,7 @@ import {
     findRecordString,
     findAllChildOfSpecialCollect,
     findExactRecord,
+    findAllChildOfRecord,
 } from "./service";
 
 export const findFriendToInvite = async (searchInvite, uid) => {
@@ -85,4 +86,22 @@ export const getAllListMessage = async (uid) => {
         "listMessage"
     );
     return listMessage;
+};
+
+export const getAllGroup = async (uid) => {
+    const listMessage = await findAllChildOfSpecialCollect(
+        "users",
+        "uid",
+        uid,
+        "listMessage"
+    );
+    const result = listMessage.filter((value) => value.val.type === 2);
+
+    return result.map((value) => value.val.messageId);
+};
+
+export const findMessageByKey = async (key) => {
+    const result = await findAllChildOfRecord("messages", key);
+    if (result) return result;
+    return null;
 };

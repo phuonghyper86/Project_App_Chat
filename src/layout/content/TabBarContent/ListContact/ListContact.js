@@ -31,7 +31,6 @@ function ListContact() {
     const [searchInvite, setSearchInvite] = useState("");
     const [listToInvite, setListToInvite] = useState([]);
     useListFriend(currentUser.uid);
-
     const filterListFriend = (val) => {
         const tmp = listFriendInfo.filter((value) => {
             return value.uid === val.uid;
