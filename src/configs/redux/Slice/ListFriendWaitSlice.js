@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllListWait } from "configs/firebase/ServiceFirebase/ServiceFind";
 
 const initialState = {
-    listUser: [],
+    listUser: null,
     pending: true,
 };
 
@@ -14,9 +14,8 @@ export const ListFriendWaitSlice = createSlice({
     name: "ListFriendWait",
     initialState,
     reducers: {
-        add: (state, action) => {},
         clear: (state) => {
-            state.listUser = [];
+            state.listUser = null;
             state.pending = true;
         },
     },
@@ -32,6 +31,6 @@ export const ListFriendWaitSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { clear, add } = ListFriendWaitSlice.actions;
+export const { clear } = ListFriendWaitSlice.actions;
 
 export default ListFriendWaitSlice.reducer;
