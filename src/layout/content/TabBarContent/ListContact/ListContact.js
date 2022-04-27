@@ -18,6 +18,7 @@ import useListFriend from "configs/customHook/useListFriend";
 import ContactItem from "./ContactItem";
 import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 import "./listContact.css";
+import useFriendRequest from "configs/customHook/useFriendRequest";
 
 function ListContact() {
     const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function ListContact() {
     const [searchInvite, setSearchInvite] = useState("");
     const [listToInvite, setListToInvite] = useState([]);
     useListFriend(currentUser.uid);
+    useFriendRequest(currentUser.uid);
     const filterListFriend = (val) => {
         const tmp = listFriendInfo.filter((value) => {
             return value.uid === val.uid;
@@ -246,4 +248,4 @@ function ListContact() {
     );
 }
 
-export default ListContact;
+export default React.memo(ListContact);

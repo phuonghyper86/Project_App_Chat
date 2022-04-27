@@ -4,7 +4,6 @@ import "./avatar.css";
 import image from "image/user.png";
 function Avatar(props) {
     const { width, status, url } = props;
-    console.log(url);
     return (
         <div style={{ position: "relative" }} className="cur-pointer">
             <Image
