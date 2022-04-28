@@ -14,10 +14,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { validateUTF8Name } from "configs/Validate";
 import { findFriendToInvite } from "configs/firebase/ServiceFirebase/ServiceFind";
 import { GetAll } from "configs/redux/Slice/ListFriendWaitSlice";
-import useListFriend from "configs/customHook/useListFriend";
 import ContactItem from "./ContactItem";
 import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 import "./listContact.css";
+import { onValue, ref } from "firebase/database";
+import { db } from "configs/firebase/config";
 
 function ListContact() {
     const dispatch = useDispatch();
@@ -30,7 +31,6 @@ function ListContact() {
     const [showRequset, setShowRequset] = useState(false);
     const [searchInvite, setSearchInvite] = useState("");
     const [listToInvite, setListToInvite] = useState([]);
-    useListFriend(currentUser.uid);
     const filterListFriend = (val) => {
         const tmp = listFriendInfo.filter((value) => {
             return value.uid === val.uid;
@@ -69,6 +69,14 @@ function ListContact() {
     const handleChangeSearchInvite = (e) => {
         setSearchInvite(e.target.value);
     };
+
+    useEffect(() => {
+        let dbRef = ref(db, `users/${currentUser.key}/listFriend`);
+
+        onValue(dbRef, (snapshot) => {
+            if (snapshot.exists()) console.log(1);
+        });
+    });
 
     useEffect(() => {
         let isMounted = true;

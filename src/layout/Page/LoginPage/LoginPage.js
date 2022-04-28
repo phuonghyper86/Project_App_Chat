@@ -12,7 +12,10 @@ import {
 import { addUser } from "configs/firebase/ServiceFirebase/ServiceInsert";
 import { updateStatus } from "configs/firebase/ServiceFirebase/ServiceUpdate";
 import SignIn from "./SignIn";
+import { LogIn } from "configs/redux/Slice/UserSlice";
+import { useDispatch } from "react-redux";
 import { Body } from "components";
+import { findUserAndKeyByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 
 const providers = {
     google: new GoogleAuthProvider(),
@@ -21,6 +24,7 @@ const providers = {
 
 function LoginPage() {
     const currentUser = useSelector((state) => state.UserInfo.user);
+    const dispatch = useDispatch();
     const handleSignIn = async (provider) => {
         await signInWithRedirect(auth, provider);
     };
@@ -46,9 +50,19 @@ function LoginPage() {
             if (result) {
                 const { _tokenResponse, user } = result;
                 if (_tokenResponse?.isNewUser) {
-                    addUser(user, _tokenResponse);
+                    await addUser(user, _tokenResponse);
+                    const users = await findUserAndKeyByUid(user.uid);
+                    dispatch(
+                        LogIn({
+                            key: users.key,
+                            uid: users.val.uid,
+                            photoURL: users.val.photoURL,
+                            email: users.val.email,
+                            displayName: users.val.displayName,
+                        })
+                    );
                 } else {
-                    updateStatus(user);
+                    await updateStatus(user);
                 }
             }
         } catch (error) {

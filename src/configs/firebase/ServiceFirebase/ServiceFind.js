@@ -62,6 +62,13 @@ export const findUserByUid = async (uid) => {
     if (result && result.length > 0) return result[0].val;
     return result;
 };
+
+export const findUserAndKeyByUid = async (uid) => {
+    const result = await findExactRecord("users", "uid", uid);
+    if (result && result.length > 0)
+        return { key: result[0].key, val: result[0].val };
+    return null;
+};
 export const findUserKeyByUid = async (uid) => {
     const result = await findExactRecord("users", "uid", uid);
     if (result && result.length > 0) return result[0].key;

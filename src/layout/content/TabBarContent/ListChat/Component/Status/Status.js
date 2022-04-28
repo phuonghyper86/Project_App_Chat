@@ -2,14 +2,11 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import StatusItem from "./StatusItem";
 import { useSelector } from "react-redux";
-import useListFriend from "configs/customHook/useListFriend";
 import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 import "./status.css";
 function Status() {
-    const currentUser = useSelector((state) => state.UserInfo.user);
     const listFriend = useSelector((state) => state.AllFriend.listFriend);
     const [listFriendInfo, setListFriendInfo] = useState([]);
-    useListFriend(currentUser.uid);
 
     const sortOnline = (a, b) => {
         if (a.IsOnline > b.IsOnline) {

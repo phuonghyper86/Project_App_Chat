@@ -1,31 +1,16 @@
 import React from "react";
 import { ref, onValue } from "firebase/database";
-import { findUserKeyByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 import { useDispatch } from "react-redux";
 import { add } from "configs/redux/Slice/AllFriendSlice";
 import { db } from "configs/firebase/config";
-
-const useListFriend = (uid) => {
-    const [key, setKey] = React.useState(null);
+const useListFriend = (key) => {
     const dispatch = useDispatch();
-    React.useEffect(() => {
-        let isMounted = true;
-        const handleLoad = async () => {
-            const friend = await findUserKeyByUid(uid);
-            if (isMounted) setKey(friend);
-        };
-        if (uid) handleLoad();
-        return () => {
-            isMounted = false;
-        };
-    }, [uid]);
 
     React.useEffect(() => {
         let dbRef = ref(db, `users/${key}/listFriend`);
         const unsubscribe = onValue(
             dbRef,
             (snapshot) => {
-                console.log(snapshot.val());
                 if (snapshot.val()) {
                     const list = [];
                     snapshot.forEach((childSnapshot) => {

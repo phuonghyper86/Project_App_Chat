@@ -36,11 +36,8 @@ function ListGroup() {
         image: "",
         file: null,
     });
-    console.log("Group: ", listGroup.length);
-    console.log("Info Ngoai: ", listGroupInfo.length);
-    useListGroup(currentUser.uid);
+    useListGroup(currentUser.key);
     const filterListGroup = (val) => {
-        console.log("Info Trong: ", listGroupInfo.length);
         const tmp = listGroupInfo.filter((value) => {
             return value.key === val.key;
         });
