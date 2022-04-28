@@ -1,11 +1,12 @@
 import React from "react";
 import { ref, onValue, query, orderByChild, equalTo } from "firebase/database";
 import { useDispatch } from "react-redux";
-import { add } from "configs/redux/Slice/AllGroupSlice";
+import { GetAll } from "configs/redux/Slice/AllGroupSlice";
 import { db } from "configs/firebase/config";
 
-const useListGroup = (key) => {
+const useListGroup = (key, uid) => {
     const dispatch = useDispatch();
+
     React.useEffect(() => {
         let dbRef = query(
             ref(db, `users/${key}/listMessage`),
@@ -15,20 +16,23 @@ const useListGroup = (key) => {
         const unsubscribe = onValue(
             dbRef,
             (snapshot) => {
-                if (snapshot.val()) {
-                    const list = [];
-                    snapshot.forEach((childSnapshot) => {
-                        list.push(childSnapshot.val().messageId);
-                    });
-                    dispatch(add(list));
-                }
+                console.log(snapshot.exists());
+                dispatch(GetAll(uid));
+                // console.log("List Grou: ", snapshot.val());
+                // if (snapshot.exists()) {
+                //     dispatch(GetAll(uid));
+                // } else {
+                //     console.log("empty");
+                // }
             },
             {
                 onlyOnce: false,
             }
         );
+
         return unsubscribe;
-    }, [dispatch, key]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [key]);
     return [true];
 };
 

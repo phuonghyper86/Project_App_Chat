@@ -54,6 +54,7 @@ export const getAllListWait = async (uid) => {
         uid,
         "listInvite"
     );
+
     return listFriendWait;
 };
 
@@ -108,8 +109,11 @@ export const getAllGroup = async (uid) => {
         "listMessage"
     );
     const result = listMessage.filter((value) => value.val.type === 2);
-
-    return result.map((value) => value.val.messageId);
+    const list = result.map(async (value) => {
+        const result = await findMessageByKey(value.val.messageId);
+        return result;
+    });
+    return Promise.all(list);
 };
 
 export const findMessageByKey = async (key) => {

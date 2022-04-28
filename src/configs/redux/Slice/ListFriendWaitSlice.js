@@ -24,6 +24,7 @@ export const ListFriendWaitSlice = createSlice({
             state.pending = true;
         });
         builder.addCase(GetAll.fulfilled, (state, action) => {
+            console.log(action.payload);
             state.listUser = action.payload;
             state.pending = false;
         });

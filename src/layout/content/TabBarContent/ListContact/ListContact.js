@@ -10,15 +10,13 @@ import {
     Badge,
 } from "react-bootstrap";
 import { CardInvite, CardAccept } from "components";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { validateUTF8Name } from "configs/Validate";
 import { findFriendToInvite } from "configs/firebase/ServiceFirebase/ServiceFind";
-import { GetAll } from "configs/redux/Slice/ListFriendWaitSlice";
 import ContactItem from "./ContactItem";
 import "./listContact.css";
 
 function ListContact() {
-    const dispatch = useDispatch();
     const localTheme = useSelector((state) => state.LocalTheme.theme);
     const currentUser = useSelector((state) => state.UserInfo.user);
     const listFriendWait = useSelector((state) => state.ListFriendWait);
@@ -28,14 +26,6 @@ function ListContact() {
     const [searchInvite, setSearchInvite] = useState("");
     const [listToInvite, setListToInvite] = useState([]);
     const [listFriendInfo, setListFriendInfo] = useState(listFriend);
-    // const filterListFriend = (val) => {
-    //     const tmp = listFriendInfo.filter((value) => {
-    //         return value.uid === val.uid;
-    //     });
-    //     if (tmp.length > 0) return false;
-    //     else return true;
-    // };
-
     const sortName = (a, b) => {
         if (a.val.displayName < b.val.displayName) {
             return -1;
@@ -50,40 +40,9 @@ function ListContact() {
         return () => {};
     }, [listFriend]);
 
-    // React.useEffect(() => {
-    //     let isMounted = true;
-    //     const handleLoad = async () => {
-    //         if (isMounted) {
-    //             listFriend.forEach(async (uid) => {
-    //                 const get = await findUserByUid(uid);
-    //                 if (filterListFriend(get))
-    //                     setListFriendInfo((prev) => [...prev, get]);
-    //             });
-    //         }
-    //     };
-    //     if (listFriend) handleLoad();
-    //     return () => {
-    //         isMounted = false;
-    //     };
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [listFriend]);
-
     const handleChangeSearchInvite = (e) => {
         setSearchInvite(e.target.value);
     };
-
-    // useEffect(() => {
-    //     let isMounted = true;
-    //     const handleGetData = async () => {
-    //         if (isMounted) {
-    //             dispatch(GetAll(currentUser.uid));
-    //         }
-    //     };
-    //     handleGetData();
-    //     return () => {
-    //         isMounted = false;
-    //     };
-    // }, [currentUser.uid, dispatch]);
 
     useEffect(() => {
         const GetResult = async () => {
@@ -179,7 +138,6 @@ function ListContact() {
             <Modal
                 show={showRequset}
                 centered
-                onShow={() => dispatch(GetAll(currentUser.uid))}
                 onHide={() => {
                     setShowRequset(false);
                 }}
@@ -227,9 +185,10 @@ function ListContact() {
                         className="friend_request_parent-lengthContent"
                         bg="danger"
                     >
-                        {listFriendWait &&
+                        {(listFriendWait &&
                             listFriendWait?.listUser &&
-                            listFriendWait.listUser.length}
+                            listFriendWait.listUser.length) ||
+                            0}
                     </Badge>
                 </div>
             </h6>
@@ -248,4 +207,4 @@ function ListContact() {
     );
 }
 
-export default ListContact;
+export default React.memo(ListContact);
