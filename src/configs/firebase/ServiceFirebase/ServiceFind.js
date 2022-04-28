@@ -82,7 +82,12 @@ export const getAllListFriend = async (uid) => {
         uid,
         "listFriend"
     );
-    return listFriend;
+    const list = listFriend.map(async (value) => {
+        const result = await findUserAndKeyByUid(value.val.uid);
+        return result;
+    });
+
+    return Promise.all(list);
 };
 
 export const getAllListMessage = async (uid) => {

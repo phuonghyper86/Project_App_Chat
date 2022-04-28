@@ -1,46 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import StatusItem from "./StatusItem";
 import { useSelector } from "react-redux";
-import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 import "./status.css";
 function Status() {
     const listFriend = useSelector((state) => state.AllFriend.listFriend);
-    const [listFriendInfo, setListFriendInfo] = useState([]);
+    const [listFriendInfo, setListFriendInfo] = useState(listFriend);
 
     const sortOnline = (a, b) => {
-        if (a.IsOnline > b.IsOnline) {
+        if (a.val.IsOnline > b.val.IsOnline) {
             return -1;
         }
-        if (a.IsOnline < b.IsOnline) {
+        if (a.val.IsOnline < b.val.IsOnline) {
             return 1;
         }
         return 0;
     };
-    const filterListFriend = (val) => {
-        const tmp = listFriendInfo.filter((value) => {
-            return value.uid === val.uid;
-        });
-        if (tmp.length > 0) return false;
-        else return true;
-    };
 
-    React.useEffect(() => {
-        let isMounted = true;
-        const handleLoad = async () => {
-            listFriend.forEach(async (uid) => {
-                const get = await findUserByUid(uid);
-                if (isMounted)
-                    if (filterListFriend(get))
-                        setListFriendInfo((prev) => [...prev, get]);
-            });
-        };
-        if (listFriend) handleLoad();
-        return () => {
-            isMounted = false;
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        setListFriendInfo([...listFriend]);
+        return () => {};
     }, [listFriend]);
+    // const filterListFriend = (val) => {
+    //     const tmp = listFriendInfo.filter((value) => {
+    //         return value.uid === val.uid;
+    //     });
+    //     if (tmp.length > 0) return false;
+    //     else return true;
+    // };
+
+    // React.useEffect(() => {
+    //     let isMounted = true;
+    //     const handleLoad = async () => {
+    //         listFriend.forEach(async (uid) => {
+    //             const get = await findUserByUid(uid);
+    //             if (isMounted)
+    //                 if (filterListFriend(get))
+    //                     setListFriendInfo((prev) => [...prev, get]);
+    //         });
+    //     };
+    //     if (listFriend) handleLoad();
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [listFriend]);
     const settings = {
         infinite: false,
         centerPadding: "60px",
@@ -76,7 +80,7 @@ function Status() {
                     listFriendInfo.length > 0 &&
                     listFriendInfo.sort(sortOnline) &&
                     listFriendInfo.map((value, index) => (
-                        <StatusItem key={index} friend={value} />
+                        <StatusItem key={index} friend={value.val} />
                     ))}
             </Slider>
         </div>

@@ -15,10 +15,7 @@ import { validateUTF8Name } from "configs/Validate";
 import { findFriendToInvite } from "configs/firebase/ServiceFirebase/ServiceFind";
 import { GetAll } from "configs/redux/Slice/ListFriendWaitSlice";
 import ContactItem from "./ContactItem";
-import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 import "./listContact.css";
-import { onValue, ref } from "firebase/database";
-import { db } from "configs/firebase/config";
 
 function ListContact() {
     const dispatch = useDispatch();
@@ -26,70 +23,67 @@ function ListContact() {
     const currentUser = useSelector((state) => state.UserInfo.user);
     const listFriendWait = useSelector((state) => state.ListFriendWait);
     const listFriend = useSelector((state) => state.AllFriend.listFriend);
-    const [listFriendInfo, setListFriendInfo] = useState([]);
     const [show, setShow] = useState(false);
     const [showRequset, setShowRequset] = useState(false);
     const [searchInvite, setSearchInvite] = useState("");
     const [listToInvite, setListToInvite] = useState([]);
-    const filterListFriend = (val) => {
-        const tmp = listFriendInfo.filter((value) => {
-            return value.uid === val.uid;
-        });
-        if (tmp.length > 0) return false;
-        else return true;
-    };
+    const [listFriendInfo, setListFriendInfo] = useState(listFriend);
+    // const filterListFriend = (val) => {
+    //     const tmp = listFriendInfo.filter((value) => {
+    //         return value.uid === val.uid;
+    //     });
+    //     if (tmp.length > 0) return false;
+    //     else return true;
+    // };
 
     const sortName = (a, b) => {
-        if (a.displayName < b.displayName) {
+        if (a.val.displayName < b.val.displayName) {
             return -1;
         }
-        if (a.displayName > b.displayName) {
+        if (a.val.displayName > b.val.displayName) {
             return 1;
         }
         return 0;
     };
-
-    React.useEffect(() => {
-        let isMounted = true;
-        const handleLoad = async () => {
-            listFriend.forEach(async (uid) => {
-                const get = await findUserByUid(uid);
-                if (isMounted)
-                    if (filterListFriend(get))
-                        setListFriendInfo((prev) => [...prev, get]);
-            });
-        };
-        if (listFriend) handleLoad();
-        return () => {
-            isMounted = false;
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    useEffect(() => {
+        setListFriendInfo([...listFriend]);
+        return () => {};
     }, [listFriend]);
+
+    // React.useEffect(() => {
+    //     let isMounted = true;
+    //     const handleLoad = async () => {
+    //         if (isMounted) {
+    //             listFriend.forEach(async (uid) => {
+    //                 const get = await findUserByUid(uid);
+    //                 if (filterListFriend(get))
+    //                     setListFriendInfo((prev) => [...prev, get]);
+    //             });
+    //         }
+    //     };
+    //     if (listFriend) handleLoad();
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [listFriend]);
 
     const handleChangeSearchInvite = (e) => {
         setSearchInvite(e.target.value);
     };
 
-    useEffect(() => {
-        let dbRef = ref(db, `users/${currentUser.key}/listFriend`);
-
-        onValue(dbRef, (snapshot) => {
-            if (snapshot.exists()) console.log(1);
-        });
-    });
-
-    useEffect(() => {
-        let isMounted = true;
-        const handleGetData = async () => {
-            if (isMounted) {
-                dispatch(GetAll(currentUser.uid));
-            }
-        };
-        handleGetData();
-        return () => {
-            isMounted = false;
-        };
-    }, [currentUser.uid, dispatch]);
+    // useEffect(() => {
+    //     let isMounted = true;
+    //     const handleGetData = async () => {
+    //         if (isMounted) {
+    //             dispatch(GetAll(currentUser.uid));
+    //         }
+    //     };
+    //     handleGetData();
+    //     return () => {
+    //         isMounted = false;
+    //     };
+    // }, [currentUser.uid, dispatch]);
 
     useEffect(() => {
         const GetResult = async () => {
@@ -246,7 +240,7 @@ function ListContact() {
                         listFriendInfo.length > 0 &&
                         listFriendInfo.sort(sortName) &&
                         listFriendInfo.map((value, index) => (
-                            <ContactItem key={index} friend={value} />
+                            <ContactItem key={index} friend={value.val} />
                         ))}
                 </div>
             </div>
