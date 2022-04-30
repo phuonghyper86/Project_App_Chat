@@ -1,5 +1,6 @@
 .listChatContent__text-color {
     color: var(--bs-gray-600);
+    font-weight: 500;
 }
 
 .listChatContent__child:hover {
@@ -23,7 +24,7 @@
 }
 
 @media (max-width: 991.99px) {
-    .listChatContent_fix_height{
+    .listChatContent_fix_height {
         bottom: 52px;
     }
 }
@@ -36,4 +37,3 @@
     position: relative;
     flex-grow: 1;
 }
-

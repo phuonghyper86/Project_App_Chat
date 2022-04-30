@@ -118,6 +118,16 @@ export const getAllGroup = async (uid) => {
     return Promise.all(list);
 };
 
+export const getAllMessage = async (uid) => {
+    const listMessage = await findAllChildOfSpecialCollect(
+        "users",
+        "uid",
+        uid,
+        "listMessage"
+    );
+    return listMessage;
+};
+
 export const findMessageByKey = async (key) => {
     const result = await findAllChildOfRecord("messages", key);
     if (result) return result;

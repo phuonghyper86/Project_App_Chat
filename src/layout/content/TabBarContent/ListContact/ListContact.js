@@ -21,8 +21,8 @@ function ListContact() {
     const currentUser = useSelector((state) => state.UserInfo.user);
     const listFriendWait = useSelector((state) => state.ListFriendWait);
     const listFriend = useSelector((state) => state.AllFriend.listFriend);
-    const [listFriendInfo, setListFriendInfo] = useState(listFriend);
 
+    const [listFriendInfo, setListFriendInfo] = useState(listFriend);
     const [show, setShow] = useState(false);
     const [showRequset, setShowRequset] = useState(false);
     const [searchInvite, setSearchInvite] = useState("");
