@@ -3,7 +3,6 @@ import { getAllListFriend } from "configs/firebase/ServiceFirebase/ServiceFind";
 
 const initialState = {
     listMessage: [],
-    pending: true,
 };
 
 export const GetListMessage = createAsyncThunk(
@@ -18,12 +17,9 @@ export const MessageSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(GetListMessage.pending, (state, action) => {
-            state.pending = true;
-        });
+        builder.addCase(GetListMessage.pending, (state, action) => {});
         builder.addCase(GetListMessage.fulfilled, (state, action) => {
-            state.listFriend = action.payload;
-            state.pending = false;
+            state.listMessage = action.payload;
         });
     },
 });

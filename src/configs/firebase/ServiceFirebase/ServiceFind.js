@@ -47,17 +47,6 @@ export const findFriendToInvite = async (searchInvite, uid) => {
     return result;
 };
 
-export const getAllListWait = async (uid) => {
-    const listFriendWait = await findAllChildOfSpecialCollect(
-        "users",
-        "uid",
-        uid,
-        "listInvite"
-    );
-
-    return listFriendWait;
-};
-
 export const findUserByUid = async (uid) => {
     const result = await findExactRecord("users", "uid", uid);
     if (result && result.length > 0) return result[0].val;
@@ -99,6 +88,19 @@ export const getAllListMessage = async (uid) => {
         "listMessage"
     );
     return listMessage;
+};
+
+export const getAllListWait = async (uid) => {
+    const listFriendWait = await findAllChildOfSpecialCollect(
+        "users",
+        "uid",
+        uid,
+        "listInvite"
+    );
+    const list = listFriendWait.map(async (value) => {
+        return await findUserAndKeyByUid(value.val.uid);
+    });
+    return Promise.all(list);
 };
 
 export const getAllGroup = async (uid) => {

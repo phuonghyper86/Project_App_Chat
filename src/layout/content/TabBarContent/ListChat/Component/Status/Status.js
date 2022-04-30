@@ -21,30 +21,7 @@ function Status() {
         setListFriendInfo([...listFriend]);
         return () => {};
     }, [listFriend]);
-    // const filterListFriend = (val) => {
-    //     const tmp = listFriendInfo.filter((value) => {
-    //         return value.uid === val.uid;
-    //     });
-    //     if (tmp.length > 0) return false;
-    //     else return true;
-    // };
 
-    // React.useEffect(() => {
-    //     let isMounted = true;
-    //     const handleLoad = async () => {
-    //         listFriend.forEach(async (uid) => {
-    //             const get = await findUserByUid(uid);
-    //             if (isMounted)
-    //                 if (filterListFriend(get))
-    //                     setListFriendInfo((prev) => [...prev, get]);
-    //         });
-    //     };
-    //     if (listFriend) handleLoad();
-    //     return () => {
-    //         isMounted = false;
-    //     };
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [listFriend]);
     const settings = {
         infinite: false,
         centerPadding: "60px",
@@ -80,7 +57,11 @@ function Status() {
                     listFriendInfo.length > 0 &&
                     listFriendInfo.sort(sortOnline) &&
                     listFriendInfo.map((value, index) => (
-                        <StatusItem key={index} friend={value.val} />
+                        <StatusItem
+                            key={index}
+                            keyId={value.key}
+                            friend={value.val}
+                        />
                     ))}
             </Slider>
         </div>

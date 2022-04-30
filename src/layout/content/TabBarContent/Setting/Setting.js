@@ -47,19 +47,18 @@ function Setting() {
                                     <Form.Label></Form.Label>
                                     <Form.Check
                                         type="switch"
-                                        id="custom-switch"
+                                        id="switch_sound"
                                         label="Notification Sound"
                                     />
-                                    <Form.Label />
-                                    <Form.Label></Form.Label>
                                     <Form.Check
                                         checked={
                                             localTheme === "dark" ? true : false
                                         }
                                         onChange={() => dispatch(change())}
                                         type="switch"
-                                        id="custom-switch"
+                                        id="switch_theme"
                                         label="Dark Mode"
+                                        className="mt-3"
                                     />
                                     <Form.Label />
                                 </Form>

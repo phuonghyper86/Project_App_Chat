@@ -16,16 +16,20 @@ export const AllGroupSlice = createSlice({
         add: (state, action) => {
             state.listGroup = action.payload;
         },
+        clear: (state) => {
+            state.listGroup = [];
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(GetAll.pending, (state, action) => {});
         builder.addCase(GetAll.fulfilled, (state, action) => {
+            console.log(action.payload);
             state.listGroup = action.payload;
         });
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { add } = AllGroupSlice.actions;
+export const { add, clear } = AllGroupSlice.actions;
 
 export default AllGroupSlice.reducer;

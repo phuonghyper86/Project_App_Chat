@@ -3,8 +3,8 @@ import { Col } from "react-bootstrap";
 import Avatar from "components/Avatar";
 import useIsOnline from "configs/customHook/useIsOnline";
 function StatusItem(props) {
-    const { friend } = props;
-    const [isOnline] = useIsOnline(friend.uid);
+    const { keyId, friend } = props;
+    const [isOnline] = useIsOnline(keyId);
 
     if (friend)
         return (

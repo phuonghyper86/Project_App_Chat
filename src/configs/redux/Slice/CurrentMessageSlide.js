@@ -2,15 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getAllListWait } from "configs/firebase/ServiceFirebase/ServiceFind";
 
 const initialState = {
-    listUser: [],
+    listChildMessage: [],
+    type: 0,
 };
 
-export const GetAll = createAsyncThunk("listFriendWait/getall", async (uid) => {
+export const GetAll = createAsyncThunk("CurrentMessage/getall", async (uid) => {
     return await getAllListWait(uid);
 });
 
-export const ListFriendWaitSlice = createSlice({
-    name: "ListFriendWait",
+export const CurrentMessageSlice = createSlice({
+    name: "CurrentMessage",
     initialState,
     reducers: {
         clear: (state) => {
@@ -27,6 +28,6 @@ export const ListFriendWaitSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { clear } = ListFriendWaitSlice.actions;
+export const { clear } = CurrentMessageSlice.actions;
 
-export default ListFriendWaitSlice.reducer;
+export default CurrentMessageSlice.reducer;
