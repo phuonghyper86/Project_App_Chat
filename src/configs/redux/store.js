@@ -6,6 +6,7 @@ import ListFriendWaitSlice from "./Slice/ListFriendWaitSlice";
 import AllFriendSlice from "./Slice/AllFriendSlice";
 import AllGroupSlice from "./Slice/AllGroupSlice";
 import ListMessageSlice from "./Slice/ListMessageSlice";
+import CurrentMessageSlide from "./Slice/CurrentMessageSlide";
 
 export const store = configureStore({
     reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
         AllFriend: AllFriendSlice,
         AllGroup: AllGroupSlice,
         ListMessage: ListMessageSlice,
+        CurrentMessage: CurrentMessageSlide,
     },
 });

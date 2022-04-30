@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import StatusItem from "./StatusItem";
 import { useSelector } from "react-redux";
+
 import "./status.css";
 function Status() {
     const listFriend = useSelector((state) => state.AllFriend.listFriend);

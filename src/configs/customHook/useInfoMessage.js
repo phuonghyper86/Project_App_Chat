@@ -25,6 +25,7 @@ const useInfoMessage = (key, uid) => {
                     var name = val.name;
                     var timeUpdate = val.timeUpdate;
                     var date = new Date(timeUpdate);
+                    var isOnline = true;
                     var time = date.toLocaleTimeString("en-US", {
                         hour12: true,
                         hour: "numeric",
@@ -61,6 +62,7 @@ const useInfoMessage = (key, uid) => {
                         time: time,
                         timeUpdate: timeUpdate,
                         key: snapshot.key,
+                        isOnline: isOnline,
                     }));
                 } else {
                     get(dbRef).then((snapshot) => {

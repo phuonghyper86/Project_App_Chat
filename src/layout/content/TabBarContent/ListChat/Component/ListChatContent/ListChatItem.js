@@ -5,12 +5,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { show } from "configs/redux/Slice/ShowMessageSlice";
 import useInfoMessage from "configs/customHook/useInfoMessage";
 import { updateTime } from "configs/redux/Slice/ListMessageSlice";
+import { GetCurrentMessage } from "configs/redux/Slice/CurrentMessageSlide";
+
 function ListChatItem(props) {
     const { keyId, type } = props;
     const currentUser = useSelector((state) => state.UserInfo.user);
     const dispatch = useDispatch();
     const [info] = useInfoMessage(keyId, currentUser.uid);
-
+    const handleShow = () => {
+        dispatch(GetCurrentMessage({ key: keyId, typeMessage: type }));
+        dispatch(show());
+    };
     useEffect(() => {
         dispatch(updateTime({ key: info.key, timeUpdate: info.timeUpdate }));
         return () => {};
@@ -18,24 +23,24 @@ function ListChatItem(props) {
     if (type === 1)
         return (
             <div
-                onClick={() => dispatch(show())}
+                onClick={handleShow}
                 className="p-2 d-flex cur-pointer listChatContent__child"
             >
                 <Col lg={2} xs={2} className="align-self-center">
-                    <Avatar width="85%" status={true} />
+                    <Avatar width="85%" status={info.isOnline} />
                 </Col>
                 <Col lg={8} xs={8} className="align-self-center flex-grow-1">
                     <h5 className="fz-15 ps-2 text-truncate">{info.name}</h5>
                     <p className="fz-14 m-0 mt-1 ps-2 listChatContent__text-color text-truncate">
-                        Làm vậy được không Phát cu te phô mai que
+                        {info.LastMessage}
                     </p>
                 </Col>
                 <Col lg="auto" xs="auto" className="align-self-baseline">
                     <div className="fz-11 listChatContent__text-color">
-                        11:00 AM
+                        {info.time}
                     </div>
                     <Badge className="float-end mt-2" pill bg="danger">
-                        9+
+                        {info.NewMessage}
                     </Badge>
                 </Col>
             </div>
@@ -44,10 +49,14 @@ function ListChatItem(props) {
         return (
             <div
                 className="p-2 d-flex cur-pointer listChatContent__child"
-                onClick={() => dispatch(show())}
+                onClick={handleShow}
             >
                 <Col lg={2} xs={2} className="align-self-center">
-                    <Avatar width="85%" status={true} url={info.photoURL} />
+                    <Avatar
+                        width="80%"
+                        status={info.isOnline}
+                        url={info.photoURL}
+                    />
                 </Col>
                 <Col lg={8} xs={8} className="align-self-center flex-grow-1">
                     <h5 className="fz-15 ps-2 text-truncate">{info.name}</h5>

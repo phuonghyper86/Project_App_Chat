@@ -50,12 +50,13 @@ export const AddFriend = async (friendUid, currentUserId) => {
     }
 };
 
-export const addMessage = async (type, name, url, listUser) => {
+export const addMessage = async (type, name, describe, url, listUser) => {
     var date = new Date();
     var utc = date.getTime() + date.getTimezoneOffset() * 60000;
     var cdate = new Date(utc + 3600000 * 7);
     const keyMessage = await addRecord("messages", {
         type: type,
+        describe: describe,
         name: name,
         photoURL: url,
         listUser: [...listUser],
