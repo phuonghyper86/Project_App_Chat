@@ -43,7 +43,7 @@ function ListMessage(props) {
                 tmpTotal.push({ val: tmp, type: ctype, sendUid: cuid });
             }
             setList(tmpTotal);
-        }
+        } else setList([]);
         return () => {};
     }, [listChild]);
 

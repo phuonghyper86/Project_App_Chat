@@ -13,7 +13,7 @@
     margin-left: 8px;
     display: flex;
     flex-direction: column;
-    flex-basis: content;
+    flex-basis: 100%;
     max-width: 80%;
 }
 .nodeChildMessage {
@@ -34,6 +34,10 @@
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
 }
+.Message__Content-Left .childMessage.nobackground {
+    background-color: var(--bs-gray-300);
+}
+
 .Message__Content-Left .childMessage-hour {
     font-size: 12px;
     text-align: right;
@@ -54,7 +58,7 @@
     margin-right: 8px;
     display: flex;
     flex-direction: column;
-    flex-basis: content;
+    flex-basis: 100%;
     max-width: 80%;
 }
 
@@ -69,13 +73,22 @@
     margin-bottom: 4px;
     color: #fff;
     position: relative;
-    min-width: 100px;
-    width: max-content;
+    min-width: 32px;
+    width: fit-content;
     max-width: 85%;
     word-wrap: break-word;
     white-space: -moz-pre-wrap;
     white-space: pre-wrap;
 }
+
+.Message__Content-Right .childMessage.nobackground {
+    background-color: var(--bs-gray-300);
+}
+
+.childMessage.nobackground .childMessage-hour {
+    color: var(--bs-gray-600);
+}
+
 .Message__Content-Right .childMessage-hour {
     font-size: 12px;
     text-align: left;
@@ -132,4 +145,11 @@
 }
 .messageAction__dropdown-item:hover {
     background-color: var(--bs-gray-300) !important;
+}
+
+.messageImage__fit {
+    padding: 3px 10px;
+    border-radius: 10%;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
