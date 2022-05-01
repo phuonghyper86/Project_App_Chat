@@ -1,3 +1,4 @@
+/* eslint-disable no-redeclare */
 import { Avatar } from "components";
 import React, { useState } from "react";
 import BackGround from "image/backgroud.png";
@@ -22,6 +23,11 @@ import {
 import useIsOnline from "configs/customHook/useIsOnline";
 import { GetCurrentMessage } from "configs/redux/Slice/CurrentMessageSlide";
 import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
+import {
+    uploadFile,
+    uploadImage,
+    uploadVideo,
+} from "configs/firebase/StorageFirebase";
 
 function ChatContent() {
     const show = useSelector((state) => state.ShowMessage.value);
@@ -39,19 +45,90 @@ function ChatContent() {
         ? "chatContent__body chatContent__body-show"
         : "chatContent__body";
 
+    const getExtension = (filename) => {
+        var parts = filename.split(".");
+        return parts[parts.length - 1];
+    };
+    const checkTypeFile = (filename) => {
+        var ext = getExtension(filename);
+        switch (ext.toLowerCase()) {
+            case "jpg":
+            case "gif":
+            case "bmp":
+            case "png":
+                return 1;
+            case "m4v":
+            case "avi":
+            case "mpg":
+            case "mp4":
+                return 2;
+            default:
+                return 0;
+        }
+    };
+
     const handleSend = async () => {
         const message = Message.message;
         const file = Message.file;
         var key = MessageData.key;
+        var listImageVideo = [];
+        var listFile = [];
+        if (message.trim() === "" && file.length <= 0) return;
         if (MessageData.type === 1) {
+            //Tạo message khi chưa có
+            if (!MessageData.key) {
+                key = await addMessage(1, null, null, null, [
+                    MessageData.UidFriend,
+                    currentUser.uid,
+                ]);
+                dispatch(
+                    GetCurrentMessage({
+                        key: key,
+                        typeMessage: 1,
+                        friend: await findUserByUid(MessageData.UidFriend),
+                    })
+                );
+            }
+            //Gửi message đối với bạn
             if (file.length > 0) {
-            } else if (message.trim() !== "") {
-                if (!MessageData.key) {
-                    key = await addMessage(1, null, null, null, [
-                        MessageData.UidFriend,
-                        currentUser.uid,
-                    ]);
+                for (var i = 0; i < file.length; i++) {
+                    var check = checkTypeFile(file[i].name);
+                    var url = "";
+                    if (check === 1) {
+                        url = await uploadImage(file[i]);
+                        listImageVideo.push(url);
+                    } else if (check === 2) {
+                        url = await uploadVideo(file[i]);
+                        listImageVideo.push(url);
+                    } else {
+                        url = await uploadFile(file[i]);
+                        listFile.push({ url: url, name: file[i].name });
+                    }
                 }
+                if (listImageVideo.length > 0) {
+                    await addChildMessage(
+                        key,
+                        2,
+                        currentUser.uid,
+                        "@attach",
+                        listImageVideo,
+                        null
+                    );
+                }
+                if (listFile.length > 0) {
+                    for (var i = 0; i < listFile.length; i++) {
+                        await addChildMessage(
+                            key,
+                            3,
+                            currentUser.uid,
+                            "@attach",
+                            listFile[i].url,
+                            listFile[i].name
+                        );
+                    }
+                }
+                setMessage({ message: "", file: [], ListNameFile: [] });
+            } else if (message.trim() !== "") {
                 await addChildMessage(
                     key,
                     1,
@@ -61,16 +138,48 @@ function ChatContent() {
                     null
                 );
                 setMessage({ message: "", file: [], ListNameFile: [] });
-                dispatch(
-                    GetCurrentMessage({
-                        key: key,
-                        typeMessage: 1,
-                        friend: await findUserByUid(MessageData.UidFriend),
-                    })
-                );
             }
         } else {
+            //Gửi message đối với nhóm
             if (file.length > 0) {
+                for (var i = 0; i < file.length; i++) {
+                    var check = checkTypeFile(file[i].name);
+                    var url = "";
+                    if (check === 1) {
+                        url = await uploadImage(file[i]);
+                        listImageVideo.push(url);
+                    } else if (check === 2) {
+                        url = await uploadVideo(file[i]);
+                        listImageVideo.push(url);
+                    } else {
+                        url = await uploadFile(file[i]);
+                        listFile.push({ url: url, name: file[i].name });
+                    }
+                }
+
+                if (listImageVideo.length > 0) {
+                    await addChildMessage(
+                        key,
+                        2,
+                        currentUser.uid,
+                        "@attach",
+                        listImageVideo,
+                        null
+                    );
+                }
+                if (listFile.length > 0) {
+                    for (var i = 0; i < listFile.length; i++) {
+                        await addChildMessage(
+                            key,
+                            3,
+                            currentUser.uid,
+                            "@attach",
+                            listFile[i].url,
+                            listFile[i].name
+                        );
+                    }
+                }
+                setMessage({ message: "", file: [], ListNameFile: [] });
             } else if (message.trim() !== "") {
                 await addChildMessage(
                     key,
@@ -207,7 +316,10 @@ function ChatContent() {
                     </Col>
                 </Row>
                 <Row className="flex-grow-1 position-relative p-3">
-                    <ListMessage />
+                    <ListMessage
+                        keyId={MessageData.key}
+                        uid={currentUser.uid}
+                    />
                 </Row>
                 <Row className="top_border p-2 p-lg-3 chatContent__input-parent">
                     <InputGroup>

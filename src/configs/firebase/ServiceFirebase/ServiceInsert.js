@@ -87,7 +87,7 @@ export const addChildMessage = async (key, type, uid, title, url, fileName) => {
         type: type,
         uidSend: uid,
         title: title,
-        url: url,
+        urls: url,
         fileName: fileName,
         listSeen: [uid],
         timeSend: cdate.getTime(),
