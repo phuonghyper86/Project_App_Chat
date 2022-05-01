@@ -11,6 +11,10 @@ function ContactItem(props) {
     const currentUser = useSelector((state) => state.UserInfo.user);
     const dispatch = useDispatch();
 
+    const handleDropdown = (e) => {
+        e.stopPropagation();
+    };
+
     const handleShow = () => {
         dispatch(
             GetCurrentMessage({
@@ -42,7 +46,7 @@ function ContactItem(props) {
                     </h5>
                 </Col>
                 <Col lg="auto" xs="auto" className="align-self-center">
-                    <Dropdown>
+                    <Dropdown onClick={handleDropdown}>
                         <Dropdown.Toggle
                             as="div"
                             bsPrefix="listContact__dropdownToggle"

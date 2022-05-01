@@ -1,5 +1,6 @@
 import { Avatar } from "components";
 import React, { useState } from "react";
+import BackGround from "image/backgroud.png";
 import {
     Col,
     Row,
@@ -7,20 +8,118 @@ import {
     InputGroup,
     FormControl,
     Button,
+    Image,
+    Toast,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { invisible } from "configs/redux/Slice/ShowMessageSlice";
 import { ListMessage, UserInfo } from "./Component";
 import "./chatContent.css";
+import {
+    addChildMessage,
+    addMessage,
+} from "configs/firebase/ServiceFirebase/ServiceInsert";
+import useIsOnline from "configs/customHook/useIsOnline";
+import { GetCurrentMessage } from "configs/redux/Slice/CurrentMessageSlide";
+import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
+
 function ChatContent() {
     const show = useSelector((state) => state.ShowMessage.value);
+    const currentUser = useSelector((state) => state.UserInfo.user);
     const MessageData = useSelector((state) => state.CurrentMessage.data);
-    console.log(MessageData);
+    const IsOnline = useIsOnline(MessageData && MessageData.keyUser);
     const [showInfo, setShowInfo] = useState(false);
     const dispatch = useDispatch();
+    const [Message, setMessage] = useState({
+        message: "",
+        file: [],
+        ListNameFile: [],
+    });
     const className_chat = show
         ? "chatContent__body chatContent__body-show"
         : "chatContent__body";
+
+    const handleSend = async () => {
+        const message = Message.message;
+        const file = Message.file;
+        var key = MessageData.key;
+        if (MessageData.type === 1) {
+            if (file.length > 0) {
+            } else if (message.trim() !== "") {
+                if (!MessageData.key) {
+                    key = await addMessage(1, null, null, null, [
+                        MessageData.UidFriend,
+                        currentUser.uid,
+                    ]);
+                }
+                await addChildMessage(
+                    key,
+                    1,
+                    currentUser.uid,
+                    message,
+                    null,
+                    null
+                );
+                setMessage({ message: "", file: [], ListNameFile: [] });
+                dispatch(
+                    GetCurrentMessage({
+                        key: key,
+                        typeMessage: 1,
+                        friend: await findUserByUid(MessageData.UidFriend),
+                    })
+                );
+            }
+        } else {
+            if (file.length > 0) {
+            } else if (message.trim() !== "") {
+                await addChildMessage(
+                    key,
+                    1,
+                    currentUser.uid,
+                    message,
+                    null,
+                    null
+                );
+                setMessage({ message: "", file: [], ListNameFile: [] });
+            }
+        }
+    };
+
+    const handleDeleteFile = (name) => {
+        var ListNameFile = Message.ListNameFile;
+        ListNameFile = ListNameFile.filter((value) => value !== name);
+        const listfile = Message.file;
+        const dt = new DataTransfer();
+
+        for (let i = 0; i < listfile.length; i++) {
+            const file = listfile[i];
+            if (name !== file.name) dt.items.add(file);
+        }
+        setMessage((prev) => ({
+            ...prev,
+            file: dt.files,
+            ListNameFile: ListNameFile,
+        }));
+    };
+
+    const handleChangeMessage = (e) => {
+        const message = e.target.value;
+        setMessage((prev) => ({ ...prev, message: message }));
+    };
+    const handleChangeFile = (e) => {
+        const listFile = e.target.files;
+        var ListNameFile = [];
+        for (var i = 0; i < listFile.length; i++) {
+            const a = listFile[i].name;
+            ListNameFile.push(a);
+        }
+        setMessage((prev) => ({
+            ...prev,
+            file: listFile,
+            ListNameFile: ListNameFile,
+        }));
+    };
+
     if (MessageData)
         return (
             <Col lg className={className_chat}>
@@ -39,7 +138,11 @@ function ChatContent() {
                                     <Avatar
                                         width="3.5rem"
                                         url={MessageData.photoURL}
-                                        status={MessageData.isOnline}
+                                        status={
+                                            MessageData.type === 1
+                                                ? IsOnline
+                                                : MessageData.isOnline
+                                        }
                                     />
                                 </div>
                                 <div className="flex-grow-1 overflow-hidden">
@@ -112,17 +215,55 @@ function ChatContent() {
                             className="bg-light border-0 seach__text-color chatContent__input fix_scroll"
                             placeholder="Enter Message..."
                             aria-label="Message"
-                            as="textarea"
-                        />
+                            as={
+                                Message.ListNameFile &&
+                                Message.ListNameFile.length > 0
+                                    ? "div"
+                                    : "textarea"
+                            }
+                            name="message"
+                            value={Message.message}
+                            onChange={handleChangeMessage}
+                        >
+                            {Message.ListNameFile &&
+                            Message.ListNameFile.length > 0 ? (
+                                Message.ListNameFile.map((value, index) => (
+                                    <Toast
+                                        key={index}
+                                        className="chatContent__body-toast"
+                                        onClose={() => handleDeleteFile(value)}
+                                    >
+                                        <Toast.Header className="chatContent__body-toast">
+                                            {value}
+                                        </Toast.Header>
+                                    </Toast>
+                                ))
+                            ) : (
+                                <></>
+                            )}
+                        </FormControl>
                         <Button
                             className="chatContent__button"
                             variant="outline-secondary"
+                            htmlFor="file_send"
+                            as="label"
                         >
                             <i className="bi bi-paperclip"></i>
                         </Button>
+                        <InputGroup className="rounded-3 d-none">
+                            <FormControl
+                                id="file_send"
+                                type="file"
+                                multiple={true}
+                                files={Message.file}
+                                onChange={handleChangeFile}
+                            ></FormControl>
+                        </InputGroup>
                         <Button
                             className="chatContent__buttonSend"
                             variant="outline-secondary"
+                            name="btn_send"
+                            onClick={handleSend}
                         >
                             <i className="bi bi-play-fill"></i>
                         </Button>
@@ -136,7 +277,17 @@ function ChatContent() {
                 />
             </Col>
         );
-    else return <div>Pending</div>;
+    else
+        return (
+            <Col lg className={className_chat}>
+                <Image
+                    src={BackGround}
+                    width="100%"
+                    height="100%"
+                    className="chatContent__body-background"
+                />
+            </Col>
+        );
 }
 
 export default ChatContent;

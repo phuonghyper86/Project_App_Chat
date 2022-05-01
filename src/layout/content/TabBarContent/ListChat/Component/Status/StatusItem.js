@@ -14,7 +14,7 @@ function StatusItem(props) {
             GetCurrentMessage({
                 key: null,
                 typeMessage: 1,
-                friend: friend,
+                friend: { ...friend, key: keyId },
             })
         );
         dispatch(show());

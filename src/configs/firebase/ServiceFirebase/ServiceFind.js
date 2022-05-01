@@ -3,6 +3,7 @@ import {
     findAllChildOfSpecialCollect,
     findExactRecord,
     findAllChildOfRecord,
+    findAll,
 } from "./service";
 
 export const findFriendToInvite = async (searchInvite, uid) => {
@@ -132,4 +133,10 @@ export const findMessageByKey = async (key) => {
     const result = await findAllChildOfRecord("messages", key);
     if (result) return result;
     return null;
+};
+
+export const getAllChildMessage = async (key) => {
+    const result = await findAll("messages", `${key}/listChildMessage`);
+    if (result) return result;
+    return [];
 };
