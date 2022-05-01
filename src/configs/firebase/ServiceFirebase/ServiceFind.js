@@ -140,3 +140,20 @@ export const getAllChildMessage = async (key) => {
     if (result) return result;
     return [];
 };
+
+export const getMessageByFriendUid = async (uid, currentUid) => {
+    const result = await findExactRecord("messages", "type", 1);
+    var key = null;
+    for (var i = 0; i < result.length; i++) {
+        if (result[i].val.listUser.length === 2) {
+            if (
+                result[i].val.listUser.indexOf(uid) >= 0 &&
+                result[i].val.listUser.indexOf(currentUid) >= 0
+            ) {
+                key = result[i].key;
+                break;
+            }
+        }
+    }
+    return key;
+};

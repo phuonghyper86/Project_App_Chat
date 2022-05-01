@@ -1,6 +1,7 @@
 import React from "react";
 import { ref, onValue } from "firebase/database";
 import { db } from "configs/firebase/config";
+import { updateListSeen } from "configs/firebase/ServiceFirebase/ServiceUpdate";
 const sortTime = (a, b) => {
     if (a.val.createAt < b.val.createAt) return 1;
     else if (a.val.createAt > b.val.createAt) return -1;
@@ -12,7 +13,8 @@ const useListChildMessage = (key, uid) => {
         let dbRef = ref(db, `messages/${key}/listChildMessage`);
         const unsubscribe = onValue(
             dbRef,
-            (snapshot) => {
+            async (snapshot) => {
+                await updateListSeen(uid, key);
                 const list = [];
                 snapshot.forEach((dataSnapshot) => {
                     list.push({
@@ -21,12 +23,14 @@ const useListChildMessage = (key, uid) => {
                         showSend: 0,
                     });
                 });
-                list.sort(sortTime);
-                var test = list[0].val;
-                if (test.uidSend === uid && test.listSeen.length === 1)
-                    list[0].showSend = 1;
-                else if (test.uidSend === uid && test.listSeen.length > 1)
-                    list[0].showSend = 2;
+                if (list.length > 0) {
+                    list.sort(sortTime);
+                    var test = list[0].val;
+                    if (test.uidSend === uid && test.listSeen.length === 1)
+                        list[0].showSend = 1;
+                    else if (test.uidSend === uid && test.listSeen.length > 1)
+                        list[0].showSend = 2;
+                }
                 setListChild(list);
             },
             {

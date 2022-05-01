@@ -22,7 +22,10 @@ import {
 } from "configs/firebase/ServiceFirebase/ServiceInsert";
 import useIsOnline from "configs/customHook/useIsOnline";
 import { GetCurrentMessage } from "configs/redux/Slice/CurrentMessageSlide";
-import { findUserByUid } from "configs/firebase/ServiceFirebase/ServiceFind";
+import {
+    findUserByUid,
+    getMessageByFriendUid,
+} from "configs/firebase/ServiceFirebase/ServiceFind";
 import {
     uploadFile,
     uploadImage,
@@ -75,12 +78,17 @@ function ChatContent() {
         var listFile = [];
         if (message.trim() === "" && file.length <= 0) return;
         if (MessageData.type === 1) {
-            //Tạo message khi chưa có
+            //Tìm key hoặc Tạo message khi chưa có
             if (!MessageData.key) {
-                key = await addMessage(1, null, null, null, [
+                key = await getMessageByFriendUid(
                     MessageData.UidFriend,
-                    currentUser.uid,
-                ]);
+                    currentUser.uid
+                );
+                if (!key)
+                    key = await addMessage(1, null, null, null, [
+                        MessageData.UidFriend,
+                        currentUser.uid,
+                    ]);
                 dispatch(
                     GetCurrentMessage({
                         key: key,

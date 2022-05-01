@@ -5,6 +5,7 @@ import { deleteFriend } from "configs/firebase/ServiceFirebase/ServiceDelete";
 import { GetCurrentMessage } from "configs/redux/Slice/CurrentMessageSlide";
 import { useSelector, useDispatch } from "react-redux";
 import { show } from "configs/redux/Slice/ShowMessageSlice";
+import { getMessageByFriendUid } from "configs/firebase/ServiceFirebase/ServiceFind";
 
 function ContactItem(props) {
     const { friend } = props;
@@ -15,10 +16,12 @@ function ContactItem(props) {
         e.stopPropagation();
     };
 
-    const handleShow = () => {
+    const handleShow = async () => {
+        var key = await getMessageByFriendUid(friend.uid, currentUser.uid);
+
         dispatch(
             GetCurrentMessage({
-                key: null,
+                key: key,
                 typeMessage: 1,
                 friend: friend,
             })

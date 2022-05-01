@@ -38,6 +38,10 @@ function ListMessage(props) {
                     tmp.push(listChild[i]);
                 }
             }
+            if (tmp.length > 0) {
+                tmp.reverse();
+                tmpTotal.push({ val: tmp, type: ctype, sendUid: cuid });
+            }
             setList(tmpTotal);
         }
         return () => {};
