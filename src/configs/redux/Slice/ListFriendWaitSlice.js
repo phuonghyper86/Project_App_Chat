@@ -20,7 +20,6 @@ export const ListFriendWaitSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(GetAll.pending, (state, action) => {});
         builder.addCase(GetAll.fulfilled, (state, action) => {
-            console.log(action.payload);
             state.listUser = action.payload;
         });
     },

@@ -113,6 +113,17 @@ function RightMessage({ user, value }) {
                                               minute: "numeric",
                                           })}
                                 </div>
+                                {tmp.showSend === 1 ? (
+                                    <div className="showSend fix-color">
+                                        Sent
+                                    </div>
+                                ) : tmp.showSend === 2 ? (
+                                    <div className="showSend fix-color">
+                                        Seen
+                                    </div>
+                                ) : (
+                                    <></>
+                                )}
                             </div>
 
                             <div className="messageAction">

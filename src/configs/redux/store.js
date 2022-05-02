@@ -7,7 +7,7 @@ import AllFriendSlice from "./Slice/AllFriendSlice";
 import AllGroupSlice from "./Slice/AllGroupSlice";
 import ListMessageSlice from "./Slice/ListMessageSlice";
 import CurrentMessageSlide from "./Slice/CurrentMessageSlide";
-
+import SendingSlice from "./Slice/SendingSlice";
 export const store = configureStore({
     reducer: {
         LocalTheme: ThemeSlice,
@@ -18,5 +18,6 @@ export const store = configureStore({
         AllGroup: AllGroupSlice,
         ListMessage: ListMessageSlice,
         CurrentMessage: CurrentMessageSlide,
+        Sending: SendingSlice,
     },
 });

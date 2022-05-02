@@ -31,6 +31,7 @@ import {
     uploadImage,
     uploadVideo,
 } from "configs/firebase/StorageFirebase";
+import { add, remove } from "configs/redux/Slice/SendingSlice";
 
 function ChatContent() {
     const show = useSelector((state) => state.ShowMessage.value);
@@ -59,6 +60,7 @@ function ChatContent() {
             case "gif":
             case "bmp":
             case "png":
+            case "jpeg":
                 return 1;
             case "m4v":
             case "avi":
@@ -78,6 +80,7 @@ function ChatContent() {
         var listFile = [];
         if (message.trim() === "" && file.length <= 0) return;
         if (MessageData.type === 1) {
+            setMessage({ message: "", file: [], ListNameFile: [] });
             //Tìm key hoặc Tạo message khi chưa có
             if (!MessageData.key) {
                 key = await getMessageByFriendUid(
@@ -102,15 +105,22 @@ function ChatContent() {
                 for (var i = 0; i < file.length; i++) {
                     var check = checkTypeFile(file[i].name);
                     var url = "";
+                    var waitUrl = URL.createObjectURL(file[i]);
                     if (check === 1) {
+                        dispatch(add({ key: key, url: waitUrl, type: 1 }));
                         url = await uploadImage(file[i]);
                         listImageVideo.push(url);
+                        dispatch(remove({ key: key, url: waitUrl, type: 1 }));
                     } else if (check === 2) {
+                        dispatch(add({ key: key, url: waitUrl, type: 2 }));
                         url = await uploadVideo(file[i]);
                         listImageVideo.push(url);
+                        dispatch(remove({ key: key, url: waitUrl, type: 2 }));
                     } else {
+                        dispatch(add({ key: key, url: waitUrl, type: 3 }));
                         url = await uploadFile(file[i]);
                         listFile.push({ url: url, name: file[i].name });
+                        dispatch(remove({ key: key, url: waitUrl, type: 3 }));
                     }
                 }
                 if (listImageVideo.length > 0) {
@@ -135,7 +145,6 @@ function ChatContent() {
                         );
                     }
                 }
-                setMessage({ message: "", file: [], ListNameFile: [] });
             } else if (message.trim() !== "") {
                 await addChildMessage(
                     key,
@@ -145,23 +154,30 @@ function ChatContent() {
                     null,
                     null
                 );
-                setMessage({ message: "", file: [], ListNameFile: [] });
             }
         } else {
+            setMessage({ message: "", file: [], ListNameFile: [] });
             //Gửi message đối với nhóm
             if (file.length > 0) {
                 for (var i = 0; i < file.length; i++) {
                     var check = checkTypeFile(file[i].name);
                     var url = "";
+                    var waitUrl = URL.createObjectURL(file[i]);
                     if (check === 1) {
+                        dispatch(add({ key: key, url: waitUrl, type: 1 }));
                         url = await uploadImage(file[i]);
                         listImageVideo.push(url);
+                        dispatch(remove({ key: key, url: waitUrl, type: 1 }));
                     } else if (check === 2) {
+                        dispatch(add({ key: key, url: waitUrl, type: 2 }));
                         url = await uploadVideo(file[i]);
                         listImageVideo.push(url);
+                        dispatch(remove({ key: key, url: waitUrl, type: 2 }));
                     } else {
+                        dispatch(add({ key: key, url: waitUrl, type: 3 }));
                         url = await uploadFile(file[i]);
                         listFile.push({ url: url, name: file[i].name });
+                        dispatch(remove({ key: key, url: waitUrl, type: 3 }));
                     }
                 }
 
@@ -197,7 +213,6 @@ function ChatContent() {
                     null,
                     null
                 );
-                setMessage({ message: "", file: [], ListNameFile: [] });
             }
         }
     };

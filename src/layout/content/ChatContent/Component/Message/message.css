@@ -111,6 +111,9 @@
     align-content: flex-end;
 }
 
+.showSend.fix-color {
+    color: var(--bs-gray-600);
+}
 .messageAction {
     color: var(--bs-body-color);
     display: none;
@@ -148,8 +151,8 @@
 }
 
 .messageImage__fit {
-    padding: 3px 10px;
-    border-radius: 10%;
+    padding: 3px 2px;
+    border-radius: 10px;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
 }
