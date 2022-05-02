@@ -8,7 +8,7 @@ import { update, ref } from "firebase/database";
 import { findMessageByKey, findUserKeyByUid } from "./ServiceFind";
 import { db } from "../config";
 
-export const addUser = async (user, _tokenResponse) => {
+export const addUser = async (user) => {
     await addRecord("users/", {
         displayName: user.displayName,
         email: user.email,
@@ -19,7 +19,6 @@ export const addUser = async (user, _tokenResponse) => {
         listChat: null,
         listInvite: null,
         IsOnline: true,
-        providerId: _tokenResponse.providerId,
     });
 };
 

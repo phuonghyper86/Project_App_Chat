@@ -25,6 +25,7 @@ const providers = {
 function LoginPage() {
     const currentUser = useSelector((state) => state.UserInfo.user);
     const dispatch = useDispatch();
+
     const handleSignIn = async (provider) => {
         await signInWithRedirect(auth, provider);
     };
@@ -50,7 +51,7 @@ function LoginPage() {
             if (result) {
                 const { _tokenResponse, user } = result;
                 if (_tokenResponse?.isNewUser) {
-                    await addUser(user, _tokenResponse);
+                    await addUser(user);
                     const users = await findUserAndKeyByUid(user.uid);
                     dispatch(
                         LogIn({
