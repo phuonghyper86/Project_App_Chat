@@ -3,7 +3,6 @@ import { Avatar } from "components";
 import { Accordion } from "react-bootstrap";
 import CardMember from "./CardMember";
 function UserInfo({ showInfo, setShowInfo, info }) {
-    console.log(info);
     return (
         <div className={`ChatContent__userInfo ${showInfo ? "show" : ""}`}>
             <div
