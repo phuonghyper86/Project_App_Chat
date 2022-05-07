@@ -119,6 +119,7 @@ const ContextProvider = ({ children }) => {
                     initiator: false,
                     trickle: false,
                     stream: currentStream,
+                    config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }] },
                 });
 
                 peer.on("signal", (data) => {
@@ -146,6 +147,7 @@ const ContextProvider = ({ children }) => {
                     initiator: true,
                     trickle: false,
                     stream: currentStream,
+                    config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }, { urls: 'stun:global.stun.twilio.com:3478?transport=udp' }] },
                 });
                 peer.on("signal", (data) => {
                     socket.emit("callUser", {
