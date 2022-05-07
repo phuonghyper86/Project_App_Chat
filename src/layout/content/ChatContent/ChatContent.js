@@ -98,7 +98,7 @@ function ChatContent() {
     //Gọi
     const handleCall = async () => {
         const serial = await findAllChildOfRecord(
-            `users/${currentUser.key}/`,
+            `users/${MessageData.keyUser}/`,
             "serialId"
         );
         if (serial.val) {
