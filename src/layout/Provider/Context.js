@@ -121,23 +121,20 @@ const ContextProvider = ({ children }) => {
                     stream: currentStream,
                     config: {
                         iceServers: [
+                            { urls: ["stun:ss-turn2.xirsys.com"] },
                             {
-                                urls: "stun:openrelay.metered.ca:80",
-                            },
-                            {
-                                urls: "turn:openrelay.metered.ca:80",
-                                username: "openrelayproject",
-                                credential: "openrelayproject",
-                            },
-                            {
-                                urls: "turn:openrelay.metered.ca:443",
-                                username: "openrelayproject",
-                                credential: "openrelayproject",
-                            },
-                            {
-                                urls: "turn:openrelay.metered.ca:443?transport=tcp",
-                                username: "openrelayproject",
-                                credential: "openrelayproject",
+                                username:
+                                    "GIOP-iozOi546kx6umb8j6Jz6tk5MlD9GDGuRdmrYh4tr2Cv7CuIYC_VregYftCjAAAAAGJ2qMRrb2tvcm81NTU=",
+                                credential:
+                                    "0a694714-ce29-11ec-b50b-0242ac140004",
+                                urls: [
+                                    "turn:ss-turn2.xirsys.com:80?transport=udp",
+                                    "turn:ss-turn2.xirsys.com:3478?transport=udp",
+                                    "turn:ss-turn2.xirsys.com:80?transport=tcp",
+                                    "turn:ss-turn2.xirsys.com:3478?transport=tcp",
+                                    "turns:ss-turn2.xirsys.com:443?transport=tcp",
+                                    "turns:ss-turn2.xirsys.com:5349?transport=tcp",
+                                ],
                             },
                         ],
                     },
@@ -170,23 +167,20 @@ const ContextProvider = ({ children }) => {
                     stream: currentStream,
                     config: {
                         iceServers: [
+                            { urls: ["stun:ss-turn2.xirsys.com"] },
                             {
-                                urls: "stun:openrelay.metered.ca:80",
-                            },
-                            {
-                                urls: "turn:openrelay.metered.ca:80",
-                                username: "openrelayproject",
-                                credential: "openrelayproject",
-                            },
-                            {
-                                urls: "turn:openrelay.metered.ca:443",
-                                username: "openrelayproject",
-                                credential: "openrelayproject",
-                            },
-                            {
-                                urls: "turn:openrelay.metered.ca:443?transport=tcp",
-                                username: "openrelayproject",
-                                credential: "openrelayproject",
+                                username:
+                                    "GIOP-iozOi546kx6umb8j6Jz6tk5MlD9GDGuRdmrYh4tr2Cv7CuIYC_VregYftCjAAAAAGJ2qMRrb2tvcm81NTU=",
+                                credential:
+                                    "0a694714-ce29-11ec-b50b-0242ac140004",
+                                urls: [
+                                    "turn:ss-turn2.xirsys.com:80?transport=udp",
+                                    "turn:ss-turn2.xirsys.com:3478?transport=udp",
+                                    "turn:ss-turn2.xirsys.com:80?transport=tcp",
+                                    "turn:ss-turn2.xirsys.com:3478?transport=tcp",
+                                    "turns:ss-turn2.xirsys.com:443?transport=tcp",
+                                    "turns:ss-turn2.xirsys.com:5349?transport=tcp",
+                                ],
                             },
                         ],
                     },
