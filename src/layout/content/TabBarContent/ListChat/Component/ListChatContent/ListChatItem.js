@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar } from "components";
 import { Col, Badge } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,8 @@ import useInfoMessage from "configs/customHook/useInfoMessage";
 import { updateTime } from "configs/redux/Slice/ListMessageSlice";
 import { GetCurrentMessage } from "configs/redux/Slice/CurrentMessageSlide";
 import useIsOnline from "configs/customHook/useIsOnline";
+import useSound from "use-sound";
+import MessageSound from "sound/message.mp3";
 
 function ListChatItem(props) {
     const { keyId, type } = props;
@@ -14,6 +16,9 @@ function ListChatItem(props) {
     const dispatch = useDispatch();
     const [info] = useInfoMessage(keyId, currentUser.uid);
     const [IsOnline] = useIsOnline(info && info.friendKey);
+    const [numNewMessage, setNumNewMessage] = useState(null);
+    const [play] = useSound(MessageSound);
+
     const handleShow = () => {
         dispatch(
             GetCurrentMessage({
@@ -26,8 +31,17 @@ function ListChatItem(props) {
         dispatch(show());
     };
     useEffect(() => {
+        if (
+            info &&
+            info.NewMessage > 0 &&
+            numNewMessage &&
+            numNewMessage < info.NewMessage
+        )
+            play();
+        setNumNewMessage(info.NewMessage);
         dispatch(updateTime({ key: info.key, timeUpdate: info.timeUpdate }));
         return () => {};
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch, info]);
     if (type === 1)
         return (
