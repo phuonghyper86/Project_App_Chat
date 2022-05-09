@@ -10,6 +10,7 @@ import CurrentMessageSlide from "./Slice/CurrentMessageSlide";
 import SendingSlice from "./Slice/SendingSlice";
 import CurrentPageSlice from "./Slice/CurrentPageSlice";
 import CurrentMethodSlice from "./Slice/CurrentMethodSlice";
+import SoundSlice from "./Slice/SoundSlice";
 export const store = configureStore({
     reducer: {
         LocalTheme: ThemeSlice,
@@ -23,5 +24,6 @@ export const store = configureStore({
         Sending: SendingSlice,
         CurrentPage: CurrentPageSlice,
         CurrentMethod: CurrentMethodSlice,
+        Sound: SoundSlice,
     },
 });

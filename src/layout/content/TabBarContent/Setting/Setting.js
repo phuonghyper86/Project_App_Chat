@@ -6,11 +6,14 @@ import { SetIsPending } from "configs/redux/Slice/UserSlice";
 import { auth } from "configs/firebase/config";
 import { updateLogOut } from "configs/firebase/ServiceFirebase/ServiceUpdate";
 import { change } from "configs/redux/Slice/ThemeSlice";
+import { changeSound } from "configs/redux/Slice/SoundSlice";
 import "./setting.css";
 
 function Setting() {
     const currentUser = useSelector((state) => state.UserInfo.user);
     const localTheme = useSelector((state) => state.LocalTheme.theme);
+    const sound = useSelector((state) => state.Sound.sound);
+
     const dispatch = useDispatch();
 
     const handleSignOut = async () => {
@@ -49,6 +52,8 @@ function Setting() {
                                         type="switch"
                                         id="switch_sound"
                                         label="Notification Sound"
+                                        checked={sound}
+                                        onChange={() => dispatch(changeSound())}
                                     />
                                     <Form.Check
                                         checked={
