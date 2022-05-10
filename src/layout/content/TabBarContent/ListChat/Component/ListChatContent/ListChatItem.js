@@ -7,6 +7,7 @@ import useInfoMessage from "configs/customHook/useInfoMessage";
 import { updateTime } from "configs/redux/Slice/ListMessageSlice";
 import { GetCurrentMessage } from "configs/redux/Slice/CurrentMessageSlide";
 import useIsOnline from "configs/customHook/useIsOnline";
+import useSoundMessage from "configs/customHook/useSoundMessage";
 import useSound from "use-sound";
 import MessageSound from "sound/message.mp3";
 
@@ -18,8 +19,8 @@ function ListChatItem(props) {
     const [IsOnline] = useIsOnline(info && info.friendKey);
     const [numNewMessage, setNumNewMessage] = useState(null);
     const [play] = useSound(MessageSound);
+    const [isActive] = useSoundMessage(currentUser.key, keyId);
     const sound = useSelector((state) => state.Sound.sound);
-
     const check = (value) => {
         var tmp = String(value).trim().toUpperCase();
         var tmp2 = String(filter).trim().toUpperCase();
@@ -44,7 +45,8 @@ function ListChatItem(props) {
             info.NewMessage > 0 &&
             numNewMessage &&
             numNewMessage < info.NewMessage &&
-            sound
+            sound &&
+            isActive
         )
             play();
         setNumNewMessage(info.NewMessage);
