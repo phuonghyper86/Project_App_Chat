@@ -59,7 +59,6 @@ export const leaveGroup = async (keyId, keyMessage, uid) => {
             listUser: [...list],
         });
         const user = await findUserByUid(uid);
-        console.log(user);
         await addChildMessage(
             keyMessage,
             5,
@@ -86,7 +85,6 @@ export const deleteChileMessage = async (keyM, keyC, keyU) => {
                     "messages",
                     `${keyM}/listChildMessage/${keyC}`
                 );
-                console.log(message, keyU);
                 if (
                     message.key &&
                     message.val &&
