@@ -1,32 +1,84 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { SocketContext } from "layout/Provider/Context";
 import { Modal, Button } from "react-bootstrap";
+import HangUp from "image/hangup.svg";
 import "./videoPlayer.css";
+import useSound from "use-sound";
+import CallSound from "sound/calling.mp3";
+
 const VideoPlayer = () => {
+    const [play, { stop, duration }] = useSound(CallSound);
     const {
+        call,
         callAccepted,
         myVideo,
         userVideo,
-        callEnded,
-        name,
         stream,
-        call,
+        name,
+        callEnded,
         leaveCall,
         answerCall,
+        myVdoStatus,
+        userVdoStatus,
+        updateVideo,
+        myMicStatus,
+        userMicStatus,
+        updateMic,
         isCalling,
     } = useContext(SocketContext);
+
+    useEffect(() => {
+        var tmp;
+        if (isCalling && callAccepted) {
+        } else if (isCalling) {
+            tmp = setInterval(() => {
+                stop();
+                play();
+            }, duration);
+            setTimeout(() => {
+                clearInterval(tmp);
+                stop();
+                leaveCall();
+            }, 60000);
+        }
+        return () => {
+            clearInterval(tmp);
+            stop();
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isCalling, callAccepted]);
+
     return (
         <Modal size="xl" centered show={isCalling} className="videoCall__modal">
             <Modal.Body className="videoCall__modal-body">
                 <div className="videoCall__parent">
                     <div className="friend__video">
-                        {(callAccepted && !callEnded && (
-                            <video
-                                playsInline
-                                ref={userVideo}
-                                autoPlay
-                                className="video_f"
-                            />
+                        {(callAccepted && !callEnded && userVideo && (
+                            <>
+                                <video
+                                    playsInline
+                                    ref={userVideo}
+                                    autoPlay
+                                    className="video_f"
+                                    style={{
+                                        opacity: `${userVdoStatus ? "1" : "0"}`,
+                                    }}
+                                />
+                                {!userMicStatus && (
+                                    <i
+                                        style={{
+                                            position: "absolute",
+                                            top: "0",
+                                            left: "0",
+                                            padding: "0.3rem",
+                                            backgroundColor: "#fefefebf",
+                                        }}
+                                        className="bi bi-mic-mute-fill"
+                                        aria-hidden="true"
+                                        aria-label="microphone muted"
+                                    ></i>
+                                )}
+                            </>
                         )) || <div className="videoCall__userName">{name}</div>}
                     </div>
                     <div className="my__video">
@@ -63,11 +115,25 @@ const VideoPlayer = () => {
                         </>
                     )) || (
                         <>
-                            <Button className="callVideo__btn">
-                                <i className="bi bi-mic-fill"></i>
+                            <Button
+                                className="callVideo__btn"
+                                onClick={updateMic}
+                            >
+                                {myMicStatus ? (
+                                    <i className="bi bi-mic-fill"></i>
+                                ) : (
+                                    <i className="bi bi-mic-mute-fill"></i>
+                                )}
                             </Button>
-                            <Button className="callVideo__btn">
-                                <i className="bi bi-camera-video-fill"></i>
+                            <Button
+                                className="callVideo__btn"
+                                onClick={updateVideo}
+                            >
+                                {myVdoStatus ? (
+                                    <i className="bi bi-camera-video-fill"></i>
+                                ) : (
+                                    <i className="bi bi-camera-video-off-fill"></i>
+                                )}
                             </Button>
 
                             <Button
@@ -75,7 +141,7 @@ const VideoPlayer = () => {
                                 onClick={leaveCall}
                                 className="callVideo__btn"
                             >
-                                <i className="bi bi-telephone-minus-fill"></i>
+                                <img src={HangUp} alt="Hang Up" />
                             </Button>
                         </>
                     )}
