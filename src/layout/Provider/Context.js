@@ -259,7 +259,7 @@ const ContextProvider = ({ children }) => {
 
     const leaveCall1 = () => {
         setIsCalling(false);
-        socket.emit("endCall", { id: otherUser });
+        socket.emit("endCall", { id: otherUser || call.from });
     };
 
     return (

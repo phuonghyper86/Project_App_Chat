@@ -11,10 +11,12 @@ import { SetIsPending } from "configs/redux/Slice/UserSlice";
 import { useNavigate } from "react-router-dom";
 import { updateLogOut } from "configs/firebase/ServiceFirebase/ServiceUpdate";
 import "./TabBar.css";
+import { changeSound } from "configs/redux/Slice/SoundSlice";
 
 function TabBar() {
     const theme = useSelector((state) => state.LocalTheme.theme);
     const user = useSelector((state) => state.UserInfo.user);
+    const sound = useSelector((state) => state.Sound.sound);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleSignOut = async () => {
@@ -103,9 +105,21 @@ function TabBar() {
                                 align="end"
                                 className="text-muted ChatContent__dropdown-background"
                             >
-                                <Dropdown.Item className="listContact__dropdownItem ChatContent__dropdownLink">
-                                    Muted
-                                    <i className="bi bi-bell-slash float-end"></i>
+                                <Dropdown.Item
+                                    className="listContact__dropdownItem ChatContent__dropdownLink"
+                                    onClick={() => dispatch(changeSound())}
+                                >
+                                    {sound ? (
+                                        <>
+                                            Muted
+                                            <i className="bi bi-bell-slash float-end"></i>
+                                        </>
+                                    ) : (
+                                        <>
+                                            Active Sound
+                                            <i className="bi bi-bell-fill float-end"></i>
+                                        </>
+                                    )}
                                 </Dropdown.Item>
                                 <Dropdown.Item
                                     className="listContact__dropdownItem ChatContent__dropdownLink"
