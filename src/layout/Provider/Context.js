@@ -99,6 +99,7 @@ const ContextProvider = ({ children }) => {
     const answerCall = () => {
         setCallAccepted(true);
         setIsCalling(true);
+        setOtherUser(call.from);
         navigator.mediaDevices
             .getUserMedia({ video: true, audio: true })
             .then((currentStream) => {
