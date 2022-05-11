@@ -24,25 +24,29 @@ const VideoPlayer = () => {
         myMicStatus,
         userMicStatus,
         updateMic,
+        leaveCall1,
         isCalling,
     } = useContext(SocketContext);
 
     useEffect(() => {
-        var tmp;
+        var tmp = null;
+        var tmp2 = null;
+
         if (isCalling && callAccepted) {
         } else if (isCalling) {
             tmp = setInterval(() => {
                 stop();
                 play();
             }, duration);
-            setTimeout(() => {
+            tmp2 = setTimeout(() => {
                 clearInterval(tmp);
                 stop();
                 leaveCall();
             }, 60000);
         }
         return () => {
-            clearInterval(tmp);
+            if (tmp) clearInterval(tmp);
+            if (tmp2) clearTimeout(tmp2);
             stop();
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -100,7 +104,7 @@ const VideoPlayer = () => {
                         <>
                             <Button
                                 variant="danger"
-                                onClick={leaveCall}
+                                onClick={leaveCall1}
                                 className="callVideo__btn"
                             >
                                 <img src={HangUp} alt="Hang Up" />

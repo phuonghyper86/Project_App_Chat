@@ -147,7 +147,6 @@ const ContextProvider = ({ children }) => {
                 connectionRef.current = peer;
             })
             .catch((e) => {
-                console.log(e);
                 const peer = new Peer({
                     initiator: false,
                     trickle: false,
@@ -252,7 +251,6 @@ const ContextProvider = ({ children }) => {
     const leaveCall = () => {
         setCallEnded(true);
         setIsCalling(false);
-
         connectionRef.current.destroy();
         socket.emit("endCall", { id: otherUser });
         window.location.reload();
@@ -260,10 +258,6 @@ const ContextProvider = ({ children }) => {
 
     const leaveCall1 = () => {
         setIsCalling(false);
-        if (stream) {
-            stream.getAudioTracks()[0].stop();
-            stream.getVideoTracks()[0].stop();
-        }
         socket.emit("endCall", { id: otherUser });
     };
 
