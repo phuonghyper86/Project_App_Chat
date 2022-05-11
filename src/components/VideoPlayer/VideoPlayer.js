@@ -103,7 +103,7 @@ const VideoPlayer = () => {
                                 onClick={leaveCall}
                                 className="callVideo__btn"
                             >
-                                <i className="bi bi-telephone-minus-fill"></i>
+                                <img src={HangUp} alt="Hang Up" />
                             </Button>
                             <Button
                                 variant="success"
