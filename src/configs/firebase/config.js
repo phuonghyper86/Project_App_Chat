@@ -5,15 +5,15 @@ import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCG1qZI7gpxhSdz54_mQH9wlmmb8zwfn-I",
-    authDomain: "chatapp-fe4a6.firebaseapp.com",
-    projectId: "chatapp-fe4a6",
-    storageBucket: "chatapp-fe4a6.appspot.com",
-    messagingSenderId: "965486165414",
-    appId: "1:965486165414:web:a66a2ffeaa765aae6da367",
-    measurementId: "G-KGC0M11M43",
+    apiKey: "AIzaSyCBjBfFz7WNMkSZhFRx7Iu3WQ7mbGjqzpQ",
+    authDomain: "appchat-27fee.firebaseapp.com",
+    projectId: "appchat-27fee",
+    storageBucket: "appchat-27fee.appspot.com",
+    messagingSenderId: "231432078446",
+    appId: "1:231432078446:web:f62272982a0936c655527f",
+    measurementId: "G-M8Q4MGM8TS",
     databaseURL:
-        "https://chatapp-fe4a6-default-rtdb.asia-southeast1.firebasedatabase.app/",
+        "https://appchat-27fee-default-rtdb.asia-southeast1.firebasedatabase.app/",
 };
 
 // Initialize Firebase
@@ -27,12 +27,12 @@ const auth = getAuth(firebase);
 
 const storage = getStorage(firebase);
 
-if (window.location.hostname === "localhost") {
-    // Point to the RTDB emulator running on localhost.
-    connectDatabaseEmulator(db, "localhost", 9000);
-    connectAuthEmulator(auth, "http://localhost:9099");
-    connectStorageEmulator(storage, "localhost", 9199);
-}
+// if (window.location.hostname === "localhost") {
+//     // Point to the RTDB emulator running on localhost.
+//     connectDatabaseEmulator(db, "localhost", 9000);
+//     connectAuthEmulator(auth, "http://localhost:9099");
+//     connectStorageEmulator(storage, "localhost", 9199);
+// }
 export const uiConfig = {
     // Popup signin flow rather than redirect flow.
     signInFlow: "redirect",
