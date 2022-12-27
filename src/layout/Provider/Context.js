@@ -6,9 +6,8 @@ import { UpdateSerialId } from "configs/firebase/ServiceFirebase/ServiceInsert";
 
 const SocketContext = createContext();
 
-// const socket = io('http://localhost:5000');
+//const socket = io('http://localhost:5000');
 const socket = io("https://tlcn.azurewebsites.net/");
-
 const ContextProvider = ({ children }) => {
     const user = useSelector((state) => state.UserInfo.user);
 

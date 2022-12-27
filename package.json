@@ -2,7 +2,7 @@
   "name": "project_web_chat",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://trannhatquang2405.github.io/Project_TKPMHDT/",
+  "homepage": "https://phuonghyper86.github.io/Project_App_Chat/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.2",
     "@testing-library/jest-dom": "^5.16.2",
