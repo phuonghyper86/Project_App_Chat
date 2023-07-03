@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Project_App_Chat/static/css/main.0cc81225.css",
-    "main.js": "/Project_App_Chat/static/js/main.876e1564.js",
+    "main.css": "/Project_App_Chat/static/css/main.5ba72b9d.css",
+    "main.js": "/Project_App_Chat/static/js/main.1ff80514.js",
     "static/js/845.ff5bdb61.chunk.js": "/Project_App_Chat/static/js/845.ff5bdb61.chunk.js",
     "static/js/998.83a5ab36.chunk.js": "/Project_App_Chat/static/js/998.83a5ab36.chunk.js",
     "static/js/2.13bd0fe0.chunk.js": "/Project_App_Chat/static/js/2.13bd0fe0.chunk.js",
@@ -19,15 +19,15 @@
     "static/media/slick.woff": "/Project_App_Chat/static/media/slick.295183786cd8a1389865.woff",
     "static/media/hangup.svg": "/Project_App_Chat/static/media/hangup.ac0ae0c8204809bc19160c1f41934f3a.svg",
     "index.html": "/Project_App_Chat/index.html",
-    "main.0cc81225.css.map": "/Project_App_Chat/static/css/main.0cc81225.css.map",
-    "main.876e1564.js.map": "/Project_App_Chat/static/js/main.876e1564.js.map",
+    "main.5ba72b9d.css.map": "/Project_App_Chat/static/css/main.5ba72b9d.css.map",
+    "main.1ff80514.js.map": "/Project_App_Chat/static/js/main.1ff80514.js.map",
     "845.ff5bdb61.chunk.js.map": "/Project_App_Chat/static/js/845.ff5bdb61.chunk.js.map",
     "998.83a5ab36.chunk.js.map": "/Project_App_Chat/static/js/998.83a5ab36.chunk.js.map",
     "2.13bd0fe0.chunk.js.map": "/Project_App_Chat/static/js/2.13bd0fe0.chunk.js.map",
     "787.987cdbc8.chunk.js.map": "/Project_App_Chat/static/js/787.987cdbc8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0cc81225.css",
-    "static/js/main.876e1564.js"
+    "static/css/main.5ba72b9d.css",
+    "static/js/main.1ff80514.js"
   ]
 }
